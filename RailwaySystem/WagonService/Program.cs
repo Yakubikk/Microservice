@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using WagonService.Data;
@@ -9,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 builder.AddDefaultAuthentication();
 
-builder.AddNpgsqlDbContext<ApplicationDbContext>("WagonDb");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("WagonDb")));
 
 // Добавляем поддержку контроллеров
 builder.Services.AddControllers();
@@ -54,7 +54,7 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Wagon Service v1");
     });
-    // app.ApplyMigrations<ApplicationDbContext>();
+    app.ApplyMigrations<ApplicationDbContext>();
 }
 
 app.MapDefaultEndpoints();

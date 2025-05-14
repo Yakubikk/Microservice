@@ -4,13 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace RailwaySystem.ServiceDefaults.Data;
 
-public class ApplicationIdentityDbContext : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>
+public class ApplicationIdentityDbContext(DbContextOptions<ApplicationIdentityDbContext> options)
+    : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>(options)
 {
-    public ApplicationIdentityDbContext(DbContextOptions<ApplicationIdentityDbContext> options)
-        : base(options)
-    {
-    }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
@@ -120,10 +122,9 @@ public static class Extensions
 
     public static IHostApplicationBuilder AddIdentityDatabase(this IHostApplicationBuilder builder, string connectionName)
     {
-        // Добавляем контекст БД с настройками подключения
-        builder.AddNpgsqlDbContext<ApplicationIdentityDbContext>(connectionName);
+        builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString(connectionName)));
     
-        // Настройка Identity
         builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
             .AddDefaultTokenProviders()
@@ -159,12 +160,31 @@ public static class Extensions
             try
             {
                 var db = services.GetRequiredService<TContext>();
-                db.Database.MigrateAsync();
+                db.Database.EnsureCreated();
+                db.Database.Migrate();
             }
-            catch (Exception ex)
+            catch (Exception ex) {
+                var logger = services.GetRequiredService<ILogger<TContext>>();
+                logger.LogError(ex, "An error occurred while migrating the database used on context {DbContextName}", typeof(TContext).Name);
+            }
+        }
+        return app;
+    }
+    
+    public static WebApplication ApplyIdentityMigrations<TContext>(this WebApplication app) where TContext : IdentityDbContext<IdentityUser<Guid>, IdentityRole<Guid>, Guid>
+    {
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            try
             {
-                var logger = services.GetRequiredService<ILogger>();
-                logger.LogError(ex, "An error occurred while migrating the database");
+                var db = services.GetRequiredService<TContext>();
+                db.Database.EnsureCreated();
+                db.Database.Migrate();
+            }
+            catch (Exception ex) {
+                var logger = services.GetRequiredService<ILogger<TContext>>();
+                logger.LogError(ex, "An error occurred while migrating the database used on context {DbContextName}", typeof(TContext).Name);
             }
         }
         return app;

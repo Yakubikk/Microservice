@@ -61,7 +61,7 @@ if (app.Environment.IsDevelopment())
     });
 
     // Применяем миграции только в Development
-    // app.ApplyMigrations<ApplicationIdentityDbContext>();
+    app.ApplyIdentityMigrations<ApplicationIdentityDbContext>();
 }
 
 app.MapDefaultEndpoints();

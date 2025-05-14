@@ -1,11 +1,9 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var postgres = builder.AddPostgres("postgres")
-    .WithPgAdmin();
-
-var identityDb = postgres.AddDatabase("IdentityDb");
-var wagonDb = postgres.AddDatabase("WagonDb");
-var fileDb = postgres.AddDatabase("FileDb");
+// Настройка баз данных (теперь это просто строки подключения)
+var identityDb = builder.AddConnectionString("IdentityDb");
+var wagonDb = builder.AddConnectionString("WagonDb");
+var fileDb = builder.AddConnectionString("FileDb");
 
 var identityService = builder.AddProject<Projects.IdentityService>("identity")
     .WithReference(identityDb);
