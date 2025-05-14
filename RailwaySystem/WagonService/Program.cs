@@ -1,13 +1,23 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using RailwaySystem.ServiceDefaults;
 using WagonService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Добавляем стандартные сервисы Aspire
 builder.AddServiceDefaults();
-builder.AddDefaultAuthentication();
 
+// Добавляем поддержку Identity, используя строку подключения "IdentityDb"
+// Важно: убедитесь, что строка подключения "IdentityDb" определена в конфигурации приложения.
+// builder.UseIdentity("IdentityDb");
+
+builder.Services.AddAuthentication(IdentityConstants.BearerScheme)
+    .AddBearerToken(IdentityConstants.BearerScheme);
+builder.Services.AddAuthorization();
+
+// Регистрируем базу данных для сервиса Wagon
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("WagonDb")));
 
@@ -20,10 +30,10 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Wagon Service API", Version = "v1" });
     
-    // Добавляем поддержку JWT в Swagger
+    // Добавляем поддержку Bearer авторизации в Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme",
+        Description = "Bearer Authorization header using the Bearer scheme",
         Type = SecuritySchemeType.Http,
         Scheme = "bearer"
     });
@@ -46,7 +56,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Настройка конвейера запросов
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -54,12 +63,14 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Wagon Service v1");
     });
-    app.ApplyMigrations<ApplicationDbContext>();
 }
+
+// Включаем middleware для аутентификации и авторизации
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapDefaultEndpoints();
 
-// Добавляем маршрутизацию контроллеров
 app.MapControllers();
 
 app.Run();

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IdentityService\IdentityService.csproj" />
+    <ProjectReference Include="..\RailwaySystem.ServiceDefaults\RailwaySystem.ServiceDefaults.csproj" />
     <ProjectReference Include="..\WagonService\WagonService.csproj" />
   </ItemGroup>
 

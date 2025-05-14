@@ -1,3 +1,5 @@
+// RailwaySystem.ServiceDefaults\Extensions.cs
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
@@ -6,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
 using RailwaySystem.ServiceDefaults.Data;
 
-namespace Microsoft.Extensions.Hosting;
+namespace RailwaySystem.ServiceDefaults;
 
 // Adds common .NET Aspire services: service discovery, resilience, health checks, and OpenTelemetry.
 // This project should be referenced by each service project in your solution.
@@ -110,28 +113,56 @@ public static class Extensions
         return builder;
     }
     
-    public static IHostApplicationBuilder AddDefaultAuthentication(this IHostApplicationBuilder builder)
+    /// <summary>
+    /// Регистрирует сервисы аутентификации и Identity, используя строку подключения из конфигурации.
+    /// Это позволяет использовать функциональность Identity в любом сервисе проекта.
+    /// </summary>
+    /// <param name="builder">Построитель приложения (IHostApplicationBuilder).</param>
+    /// <param name="connectionName">Имя строки подключения для базы данных Identity.</param>
+    /// <returns>Модифицированный IHostApplicationBuilder.</returns>
+    public static TBuilder UseIdentity<TBuilder>(this TBuilder builder, string connectionName) where TBuilder: IHostApplicationBuilder
     {
-        builder.Services.AddAuthentication()
+        // Регистрируем аутентификацию по умолчанию (Bearer-токены)
+        builder.Services.AddAuthentication(IdentityConstants.BearerScheme)
             .AddBearerToken(IdentityConstants.BearerScheme);
 
-        builder.Services.AddAuthorizationBuilder();
-        
-        return builder;
-    }
-
-    public static IHostApplicationBuilder AddIdentityDatabase(this IHostApplicationBuilder builder, string connectionName)
-    {
+        // Регистрируем Identity-сервисы с базой данных Identity
         builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString(connectionName)));
-    
+
         builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
             .AddDefaultTokenProviders()
             .AddApiEndpoints();
 
+        // Если требуется, можно добавить и регистрацию авторизации
+        builder.Services.AddAuthorization();
+
         return builder;
     }
+    
+    // public static IHostApplicationBuilder AddDefaultAuthentication(this IHostApplicationBuilder builder)
+    // {
+    //     builder.Services.AddAuthentication(IdentityConstants.BearerScheme)
+    //         .AddBearerToken(IdentityConstants.BearerScheme);
+    //
+    //     builder.Services.AddAuthorizationBuilder();
+    //     
+    //     return builder;
+    // }
+    //
+    // public static IHostApplicationBuilder AddIdentityDatabase(this IHostApplicationBuilder builder, string connectionName)
+    // {
+    //     builder.Services.AddDbContext<ApplicationIdentityDbContext>(options =>
+    //         options.UseNpgsql(builder.Configuration.GetConnectionString(connectionName)));
+    //     
+    //     builder.Services.AddIdentity<IdentityUser<Guid>, IdentityRole<Guid>>()
+    //         .AddEntityFrameworkStores<ApplicationIdentityDbContext>()
+    //         .AddDefaultTokenProviders()
+    //         .AddApiEndpoints();
+    //
+    //     return builder;
+    // }
 
     public static WebApplication MapDefaultEndpoints(this WebApplication app)
     {

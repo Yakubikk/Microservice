@@ -1,13 +1,16 @@
+// IdentityService\Program.cs
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using RailwaySystem.ServiceDefaults.Data;
+using RailwaySystem.ServiceDefaults;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Добавляем стандартные сервисы Aspire
 builder.AddServiceDefaults();
-builder.AddDefaultAuthentication();
-builder.AddIdentityDatabase("IdentityDb");
+
+// Использование метода UseIdentity для настройки Identity
+builder.UseIdentity("IdentityDb");
 
 // Добавляем Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -20,14 +23,13 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Authentication and authorization service"
     });
 
-    // Настройка JWT в Swagger
+    // Настройка Bearer в Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Description = "Please enter a valid JWT token",
+        Description = "Please enter a valid Bearer token",
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
         Scheme = "Bearer"
     });
 
@@ -61,10 +63,10 @@ if (app.Environment.IsDevelopment())
     });
 
     // Применяем миграции только в Development
-    app.ApplyIdentityMigrations<ApplicationIdentityDbContext>();
+    // app.ApplyIdentityMigrations<ApplicationIdentityDbContext>();
 }
 
 app.MapDefaultEndpoints();
-app.MapIdentityApi<IdentityUser<Guid>>();
+app.MapGroup("/auth").MapIdentityApi<IdentityUser<Guid>>();
 
 app.Run();
