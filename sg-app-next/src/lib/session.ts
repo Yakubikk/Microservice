@@ -1,6 +1,17 @@
+"use server";
+
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import {$Enums} from "@/generated/prisma";
+import Role = $Enums.Role;
+
+type SessionPayload = {
+    userId: string;
+    userRole: string;
+    expiresAt: Date;
+    rememberMe?: string;
+};
 
 const secretKey = process.env.SESSION_SECRET;
 if (!secretKey || secretKey.length < 32) {
@@ -11,49 +22,80 @@ if (!secretKey || secretKey.length < 32) {
 
 const encodedKey = new TextEncoder().encode(secretKey);
 
-export async function createSession(userId: string, userRole: string, rememberMe?: string) {
-    // Если rememberMe true - сессия на 30 дней, иначе - на 1 день
+export async function createSession(
+    userId: string,
+    userRole: Role,
+    rememberMe?: string
+) {
     const expiresAt = rememberMe
-        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 дней
-        : new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 день
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        : new Date(Date.now() + 24 * 60 * 60 * 1000);
 
     const session = await encrypt({ userId, userRole, expiresAt, rememberMe });
 
     (await cookies()).set("session", session, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === "production",
         expires: expiresAt,
         sameSite: "lax",
         path: "/",
     });
 }
 
+export async function getSession() {
+    const cookie = (await cookies()).get("session");
+    if (!cookie?.value) return null;
+
+    try {
+        const decryptedSession = await decrypt(cookie.value);
+
+        if (!decryptedSession ||
+            typeof decryptedSession !== 'object' ||
+            !('userId' in decryptedSession) ||
+            !('userRole' in decryptedSession) ||
+            !('expiresAt' in decryptedSession)) {
+            await deleteSession();
+            return null;
+        }
+
+        // Приведение типа для expiresAt
+        const expiresAt = new Date(decryptedSession.expiresAt as string | number | Date);
+        if (expiresAt < new Date()) {
+            await deleteSession();
+            return null;
+        }
+
+        return {
+            userId: decryptedSession.userId as string,
+            userRole: decryptedSession.userRole as Role,
+        };
+    } catch (error) {
+        console.error("Session decryption failed:", error);
+        await deleteSession();
+        return null;
+    }
+}
+
 export async function deleteSession() {
     (await cookies()).delete("session");
 }
 
-type SessionPayload = {
-    userId: string;
-    userRole: string;
-    expiresAt: Date;
-    rememberMe?: string;
-};
-
-export async function encrypt(payload: SessionPayload) {
+async function encrypt(payload: SessionPayload): Promise<string> {
     return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime(payload.rememberMe ? "30d" : "1d") // 30 дней или 1 день
+    .setExpirationTime(payload.rememberMe ? "30d" : "1d")
     .sign(encodedKey);
 }
 
-export async function decrypt(session: string | undefined = "") {
+async function decrypt(session: string) {
     try {
         const { payload } = await jwtVerify(session, encodedKey, {
             algorithms: ["HS256"],
         });
         return payload;
-    } catch {
-        console.log("Не удалось проверить сеанс");
+    } catch (error) {
+        console.error("Failed to verify session:", error);
+        return null;
     }
 }

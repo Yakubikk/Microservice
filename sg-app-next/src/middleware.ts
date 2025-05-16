@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "./lib/session";
+import {getSession} from "./lib/session";
 import {$Enums} from "@/generated/prisma";
 import Role = $Enums.Role;
 
@@ -19,7 +19,18 @@ export default async function middleware(req: NextRequest) {
     const isPublicRoute = publicRoutes.includes(path);
 
     const cookie = (await cookies()).get("session")?.value;
-    const session = await decrypt(cookie);
+
+    if (!cookie) {
+        // Если куки нет, то проверяем, является ли роут публичным
+        if (isPublicRoute) {
+            return NextResponse.next();
+        } else {
+            // Если роут защищённый и куки нет - редирект на страницу логина
+            return NextResponse.redirect(new URL("/login", req.nextUrl));
+        }
+    }
+
+    const session = await getSession();
 
     // Редирект для публичных роутов, если пользователь уже авторизован
     if (isPublicRoute && session?.userId) {
@@ -36,7 +47,7 @@ export default async function middleware(req: NextRequest) {
         const requiredRoles = protectedRoutes[path];
 
         // Проверяем, есть ли у пользователя нужная роль
-        if (session.userRole && !requiredRoles.includes(<"USER" | "MODERATOR" | "ADMIN">session.userRole)) {
+        if (session.userRole && !requiredRoles.includes(session.userRole)) {
             // Если нет - редирект на страницу "Unauthorized"
             return NextResponse.redirect(new URL("/unauthorized", req.nextUrl));
             // Или можно вернуть 403:

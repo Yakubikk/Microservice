@@ -18,6 +18,16 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+/**
+ * Model Manufacturer
+ * 
+ */
+export type Manufacturer = $Result.DefaultSelection<Prisma.$ManufacturerPayload>
+/**
+ * Model Wagon
+ * 
+ */
+export type Wagon = $Result.DefaultSelection<Prisma.$WagonPayload>
 
 /**
  * Enums
@@ -171,6 +181,26 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.manufacturer`: Exposes CRUD operations for the **Manufacturer** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Manufacturers
+    * const manufacturers = await prisma.manufacturer.findMany()
+    * ```
+    */
+  get manufacturer(): Prisma.ManufacturerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.wagon`: Exposes CRUD operations for the **Wagon** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Wagons
+    * const wagons = await prisma.wagon.findMany()
+    * ```
+    */
+  get wagon(): Prisma.WagonDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -611,7 +641,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User'
+    User: 'User',
+    Manufacturer: 'Manufacturer',
+    Wagon: 'Wagon'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -630,7 +662,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user"
+      modelProps: "user" | "manufacturer" | "wagon"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -705,6 +737,154 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Manufacturer: {
+        payload: Prisma.$ManufacturerPayload<ExtArgs>
+        fields: Prisma.ManufacturerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ManufacturerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ManufacturerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          findFirst: {
+            args: Prisma.ManufacturerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ManufacturerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          findMany: {
+            args: Prisma.ManufacturerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>[]
+          }
+          create: {
+            args: Prisma.ManufacturerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          createMany: {
+            args: Prisma.ManufacturerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ManufacturerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>[]
+          }
+          delete: {
+            args: Prisma.ManufacturerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          update: {
+            args: Prisma.ManufacturerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          deleteMany: {
+            args: Prisma.ManufacturerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ManufacturerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ManufacturerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>[]
+          }
+          upsert: {
+            args: Prisma.ManufacturerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          aggregate: {
+            args: Prisma.ManufacturerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateManufacturer>
+          }
+          groupBy: {
+            args: Prisma.ManufacturerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ManufacturerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ManufacturerCountArgs<ExtArgs>
+            result: $Utils.Optional<ManufacturerCountAggregateOutputType> | number
+          }
+        }
+      }
+      Wagon: {
+        payload: Prisma.$WagonPayload<ExtArgs>
+        fields: Prisma.WagonFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WagonFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WagonFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>
+          }
+          findFirst: {
+            args: Prisma.WagonFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WagonFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>
+          }
+          findMany: {
+            args: Prisma.WagonFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>[]
+          }
+          create: {
+            args: Prisma.WagonCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>
+          }
+          createMany: {
+            args: Prisma.WagonCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WagonCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>[]
+          }
+          delete: {
+            args: Prisma.WagonDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>
+          }
+          update: {
+            args: Prisma.WagonUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>
+          }
+          deleteMany: {
+            args: Prisma.WagonDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WagonUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WagonUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>[]
+          }
+          upsert: {
+            args: Prisma.WagonUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WagonPayload>
+          }
+          aggregate: {
+            args: Prisma.WagonAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWagon>
+          }
+          groupBy: {
+            args: Prisma.WagonGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WagonGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WagonCountArgs<ExtArgs>
+            result: $Utils.Optional<WagonCountAggregateOutputType> | number
           }
         }
       }
@@ -793,6 +973,8 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    manufacturer?: ManufacturerOmit
+    wagon?: WagonOmit
   }
 
   /* Types for Logging */
@@ -881,6 +1063,36 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type ManufacturerCountOutputType
+   */
+
+  export type ManufacturerCountOutputType = {
+    Wagons: number
+  }
+
+  export type ManufacturerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Wagons?: boolean | ManufacturerCountOutputTypeCountWagonsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ManufacturerCountOutputType without action
+   */
+  export type ManufacturerCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManufacturerCountOutputType
+     */
+    select?: ManufacturerCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ManufacturerCountOutputType without action
+   */
+  export type ManufacturerCountOutputTypeCountWagonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WagonWhereInput
+  }
 
 
   /**
@@ -1883,6 +2095,2147 @@ export namespace Prisma {
 
 
   /**
+   * Model Manufacturer
+   */
+
+  export type AggregateManufacturer = {
+    _count: ManufacturerCountAggregateOutputType | null
+    _min: ManufacturerMinAggregateOutputType | null
+    _max: ManufacturerMaxAggregateOutputType | null
+  }
+
+  export type ManufacturerMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorId: string | null
+  }
+
+  export type ManufacturerMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorId: string | null
+  }
+
+  export type ManufacturerCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    creatorId: number
+    _all: number
+  }
+
+
+  export type ManufacturerMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorId?: true
+  }
+
+  export type ManufacturerMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorId?: true
+  }
+
+  export type ManufacturerCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorId?: true
+    _all?: true
+  }
+
+  export type ManufacturerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Manufacturer to aggregate.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Manufacturers
+    **/
+    _count?: true | ManufacturerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ManufacturerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ManufacturerMaxAggregateInputType
+  }
+
+  export type GetManufacturerAggregateType<T extends ManufacturerAggregateArgs> = {
+        [P in keyof T & keyof AggregateManufacturer]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateManufacturer[P]>
+      : GetScalarType<T[P], AggregateManufacturer[P]>
+  }
+
+
+
+
+  export type ManufacturerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManufacturerWhereInput
+    orderBy?: ManufacturerOrderByWithAggregationInput | ManufacturerOrderByWithAggregationInput[]
+    by: ManufacturerScalarFieldEnum[] | ManufacturerScalarFieldEnum
+    having?: ManufacturerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ManufacturerCountAggregateInputType | true
+    _min?: ManufacturerMinAggregateInputType
+    _max?: ManufacturerMaxAggregateInputType
+  }
+
+  export type ManufacturerGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    creatorId: string
+    _count: ManufacturerCountAggregateOutputType | null
+    _min: ManufacturerMinAggregateOutputType | null
+    _max: ManufacturerMaxAggregateOutputType | null
+  }
+
+  type GetManufacturerGroupByPayload<T extends ManufacturerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ManufacturerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ManufacturerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ManufacturerGroupByOutputType[P]>
+            : GetScalarType<T[P], ManufacturerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ManufacturerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+    Wagons?: boolean | Manufacturer$WagonsArgs<ExtArgs>
+    _count?: boolean | ManufacturerCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["manufacturer"]>
+
+  export type ManufacturerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+  }, ExtArgs["result"]["manufacturer"]>
+
+  export type ManufacturerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+  }, ExtArgs["result"]["manufacturer"]>
+
+  export type ManufacturerSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+  }
+
+  export type ManufacturerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "creatorId", ExtArgs["result"]["manufacturer"]>
+  export type ManufacturerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Wagons?: boolean | Manufacturer$WagonsArgs<ExtArgs>
+    _count?: boolean | ManufacturerCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ManufacturerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ManufacturerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ManufacturerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Manufacturer"
+    objects: {
+      Wagons: Prisma.$WagonPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+      creatorId: string
+    }, ExtArgs["result"]["manufacturer"]>
+    composites: {}
+  }
+
+  type ManufacturerGetPayload<S extends boolean | null | undefined | ManufacturerDefaultArgs> = $Result.GetResult<Prisma.$ManufacturerPayload, S>
+
+  type ManufacturerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ManufacturerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ManufacturerCountAggregateInputType | true
+    }
+
+  export interface ManufacturerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Manufacturer'], meta: { name: 'Manufacturer' } }
+    /**
+     * Find zero or one Manufacturer that matches the filter.
+     * @param {ManufacturerFindUniqueArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ManufacturerFindUniqueArgs>(args: SelectSubset<T, ManufacturerFindUniqueArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Manufacturer that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ManufacturerFindUniqueOrThrowArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ManufacturerFindUniqueOrThrowArgs>(args: SelectSubset<T, ManufacturerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Manufacturer that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerFindFirstArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ManufacturerFindFirstArgs>(args?: SelectSubset<T, ManufacturerFindFirstArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Manufacturer that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerFindFirstOrThrowArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ManufacturerFindFirstOrThrowArgs>(args?: SelectSubset<T, ManufacturerFindFirstOrThrowArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Manufacturers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Manufacturers
+     * const manufacturers = await prisma.manufacturer.findMany()
+     * 
+     * // Get first 10 Manufacturers
+     * const manufacturers = await prisma.manufacturer.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const manufacturerWithIdOnly = await prisma.manufacturer.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ManufacturerFindManyArgs>(args?: SelectSubset<T, ManufacturerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Manufacturer.
+     * @param {ManufacturerCreateArgs} args - Arguments to create a Manufacturer.
+     * @example
+     * // Create one Manufacturer
+     * const Manufacturer = await prisma.manufacturer.create({
+     *   data: {
+     *     // ... data to create a Manufacturer
+     *   }
+     * })
+     * 
+     */
+    create<T extends ManufacturerCreateArgs>(args: SelectSubset<T, ManufacturerCreateArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Manufacturers.
+     * @param {ManufacturerCreateManyArgs} args - Arguments to create many Manufacturers.
+     * @example
+     * // Create many Manufacturers
+     * const manufacturer = await prisma.manufacturer.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ManufacturerCreateManyArgs>(args?: SelectSubset<T, ManufacturerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Manufacturers and returns the data saved in the database.
+     * @param {ManufacturerCreateManyAndReturnArgs} args - Arguments to create many Manufacturers.
+     * @example
+     * // Create many Manufacturers
+     * const manufacturer = await prisma.manufacturer.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Manufacturers and only return the `id`
+     * const manufacturerWithIdOnly = await prisma.manufacturer.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ManufacturerCreateManyAndReturnArgs>(args?: SelectSubset<T, ManufacturerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Manufacturer.
+     * @param {ManufacturerDeleteArgs} args - Arguments to delete one Manufacturer.
+     * @example
+     * // Delete one Manufacturer
+     * const Manufacturer = await prisma.manufacturer.delete({
+     *   where: {
+     *     // ... filter to delete one Manufacturer
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ManufacturerDeleteArgs>(args: SelectSubset<T, ManufacturerDeleteArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Manufacturer.
+     * @param {ManufacturerUpdateArgs} args - Arguments to update one Manufacturer.
+     * @example
+     * // Update one Manufacturer
+     * const manufacturer = await prisma.manufacturer.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ManufacturerUpdateArgs>(args: SelectSubset<T, ManufacturerUpdateArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Manufacturers.
+     * @param {ManufacturerDeleteManyArgs} args - Arguments to filter Manufacturers to delete.
+     * @example
+     * // Delete a few Manufacturers
+     * const { count } = await prisma.manufacturer.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ManufacturerDeleteManyArgs>(args?: SelectSubset<T, ManufacturerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Manufacturers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Manufacturers
+     * const manufacturer = await prisma.manufacturer.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ManufacturerUpdateManyArgs>(args: SelectSubset<T, ManufacturerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Manufacturers and returns the data updated in the database.
+     * @param {ManufacturerUpdateManyAndReturnArgs} args - Arguments to update many Manufacturers.
+     * @example
+     * // Update many Manufacturers
+     * const manufacturer = await prisma.manufacturer.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Manufacturers and only return the `id`
+     * const manufacturerWithIdOnly = await prisma.manufacturer.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ManufacturerUpdateManyAndReturnArgs>(args: SelectSubset<T, ManufacturerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Manufacturer.
+     * @param {ManufacturerUpsertArgs} args - Arguments to update or create a Manufacturer.
+     * @example
+     * // Update or create a Manufacturer
+     * const manufacturer = await prisma.manufacturer.upsert({
+     *   create: {
+     *     // ... data to create a Manufacturer
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Manufacturer we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ManufacturerUpsertArgs>(args: SelectSubset<T, ManufacturerUpsertArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Manufacturers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerCountArgs} args - Arguments to filter Manufacturers to count.
+     * @example
+     * // Count the number of Manufacturers
+     * const count = await prisma.manufacturer.count({
+     *   where: {
+     *     // ... the filter for the Manufacturers we want to count
+     *   }
+     * })
+    **/
+    count<T extends ManufacturerCountArgs>(
+      args?: Subset<T, ManufacturerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ManufacturerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Manufacturer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ManufacturerAggregateArgs>(args: Subset<T, ManufacturerAggregateArgs>): Prisma.PrismaPromise<GetManufacturerAggregateType<T>>
+
+    /**
+     * Group by Manufacturer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ManufacturerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ManufacturerGroupByArgs['orderBy'] }
+        : { orderBy?: ManufacturerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ManufacturerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetManufacturerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Manufacturer model
+   */
+  readonly fields: ManufacturerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Manufacturer.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ManufacturerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Wagons<T extends Manufacturer$WagonsArgs<ExtArgs> = {}>(args?: Subset<T, Manufacturer$WagonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Manufacturer model
+   */
+  interface ManufacturerFieldRefs {
+    readonly id: FieldRef<"Manufacturer", 'String'>
+    readonly name: FieldRef<"Manufacturer", 'String'>
+    readonly createdAt: FieldRef<"Manufacturer", 'DateTime'>
+    readonly updatedAt: FieldRef<"Manufacturer", 'DateTime'>
+    readonly creatorId: FieldRef<"Manufacturer", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Manufacturer findUnique
+   */
+  export type ManufacturerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer findUniqueOrThrow
+   */
+  export type ManufacturerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer findFirst
+   */
+  export type ManufacturerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Manufacturers.
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Manufacturers.
+     */
+    distinct?: ManufacturerScalarFieldEnum | ManufacturerScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer findFirstOrThrow
+   */
+  export type ManufacturerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Manufacturers.
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Manufacturers.
+     */
+    distinct?: ManufacturerScalarFieldEnum | ManufacturerScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer findMany
+   */
+  export type ManufacturerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturers to fetch.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Manufacturers.
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    distinct?: ManufacturerScalarFieldEnum | ManufacturerScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer create
+   */
+  export type ManufacturerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Manufacturer.
+     */
+    data: XOR<ManufacturerCreateInput, ManufacturerUncheckedCreateInput>
+  }
+
+  /**
+   * Manufacturer createMany
+   */
+  export type ManufacturerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Manufacturers.
+     */
+    data: ManufacturerCreateManyInput | ManufacturerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Manufacturer createManyAndReturn
+   */
+  export type ManufacturerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * The data used to create many Manufacturers.
+     */
+    data: ManufacturerCreateManyInput | ManufacturerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Manufacturer update
+   */
+  export type ManufacturerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Manufacturer.
+     */
+    data: XOR<ManufacturerUpdateInput, ManufacturerUncheckedUpdateInput>
+    /**
+     * Choose, which Manufacturer to update.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer updateMany
+   */
+  export type ManufacturerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Manufacturers.
+     */
+    data: XOR<ManufacturerUpdateManyMutationInput, ManufacturerUncheckedUpdateManyInput>
+    /**
+     * Filter which Manufacturers to update
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * Limit how many Manufacturers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manufacturer updateManyAndReturn
+   */
+  export type ManufacturerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * The data used to update Manufacturers.
+     */
+    data: XOR<ManufacturerUpdateManyMutationInput, ManufacturerUncheckedUpdateManyInput>
+    /**
+     * Filter which Manufacturers to update
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * Limit how many Manufacturers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manufacturer upsert
+   */
+  export type ManufacturerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Manufacturer to update in case it exists.
+     */
+    where: ManufacturerWhereUniqueInput
+    /**
+     * In case the Manufacturer found by the `where` argument doesn't exist, create a new Manufacturer with this data.
+     */
+    create: XOR<ManufacturerCreateInput, ManufacturerUncheckedCreateInput>
+    /**
+     * In case the Manufacturer was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ManufacturerUpdateInput, ManufacturerUncheckedUpdateInput>
+  }
+
+  /**
+   * Manufacturer delete
+   */
+  export type ManufacturerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter which Manufacturer to delete.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer deleteMany
+   */
+  export type ManufacturerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Manufacturers to delete
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * Limit how many Manufacturers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manufacturer.Wagons
+   */
+  export type Manufacturer$WagonsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    where?: WagonWhereInput
+    orderBy?: WagonOrderByWithRelationInput | WagonOrderByWithRelationInput[]
+    cursor?: WagonWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: WagonScalarFieldEnum | WagonScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer without action
+   */
+  export type ManufacturerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Wagon
+   */
+
+  export type AggregateWagon = {
+    _count: WagonCountAggregateOutputType | null
+    _min: WagonMinAggregateOutputType | null
+    _max: WagonMaxAggregateOutputType | null
+  }
+
+  export type WagonMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorId: string | null
+    manufacturerId: string | null
+  }
+
+  export type WagonMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorId: string | null
+    manufacturerId: string | null
+  }
+
+  export type WagonCountAggregateOutputType = {
+    id: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    creatorId: number
+    manufacturerId: number
+    _all: number
+  }
+
+
+  export type WagonMinAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorId?: true
+    manufacturerId?: true
+  }
+
+  export type WagonMaxAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorId?: true
+    manufacturerId?: true
+  }
+
+  export type WagonCountAggregateInputType = {
+    id?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorId?: true
+    manufacturerId?: true
+    _all?: true
+  }
+
+  export type WagonAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Wagon to aggregate.
+     */
+    where?: WagonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wagons to fetch.
+     */
+    orderBy?: WagonOrderByWithRelationInput | WagonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WagonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wagons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wagons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Wagons
+    **/
+    _count?: true | WagonCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WagonMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WagonMaxAggregateInputType
+  }
+
+  export type GetWagonAggregateType<T extends WagonAggregateArgs> = {
+        [P in keyof T & keyof AggregateWagon]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWagon[P]>
+      : GetScalarType<T[P], AggregateWagon[P]>
+  }
+
+
+
+
+  export type WagonGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WagonWhereInput
+    orderBy?: WagonOrderByWithAggregationInput | WagonOrderByWithAggregationInput[]
+    by: WagonScalarFieldEnum[] | WagonScalarFieldEnum
+    having?: WagonScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WagonCountAggregateInputType | true
+    _min?: WagonMinAggregateInputType
+    _max?: WagonMaxAggregateInputType
+  }
+
+  export type WagonGroupByOutputType = {
+    id: string
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    creatorId: string
+    manufacturerId: string
+    _count: WagonCountAggregateOutputType | null
+    _min: WagonMinAggregateOutputType | null
+    _max: WagonMaxAggregateOutputType | null
+  }
+
+  type GetWagonGroupByPayload<T extends WagonGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WagonGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WagonGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WagonGroupByOutputType[P]>
+            : GetScalarType<T[P], WagonGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WagonSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+    manufacturerId?: boolean
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wagon"]>
+
+  export type WagonSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+    manufacturerId?: boolean
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wagon"]>
+
+  export type WagonSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+    manufacturerId?: boolean
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["wagon"]>
+
+  export type WagonSelectScalar = {
+    id?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorId?: boolean
+    manufacturerId?: boolean
+  }
+
+  export type WagonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "creatorId" | "manufacturerId", ExtArgs["result"]["wagon"]>
+  export type WagonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }
+  export type WagonIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }
+  export type WagonIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }
+
+  export type $WagonPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Wagon"
+    objects: {
+      manufacturer: Prisma.$ManufacturerPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      createdAt: Date
+      updatedAt: Date
+      creatorId: string
+      manufacturerId: string
+    }, ExtArgs["result"]["wagon"]>
+    composites: {}
+  }
+
+  type WagonGetPayload<S extends boolean | null | undefined | WagonDefaultArgs> = $Result.GetResult<Prisma.$WagonPayload, S>
+
+  type WagonCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WagonFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WagonCountAggregateInputType | true
+    }
+
+  export interface WagonDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Wagon'], meta: { name: 'Wagon' } }
+    /**
+     * Find zero or one Wagon that matches the filter.
+     * @param {WagonFindUniqueArgs} args - Arguments to find a Wagon
+     * @example
+     * // Get one Wagon
+     * const wagon = await prisma.wagon.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WagonFindUniqueArgs>(args: SelectSubset<T, WagonFindUniqueArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Wagon that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WagonFindUniqueOrThrowArgs} args - Arguments to find a Wagon
+     * @example
+     * // Get one Wagon
+     * const wagon = await prisma.wagon.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WagonFindUniqueOrThrowArgs>(args: SelectSubset<T, WagonFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Wagon that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WagonFindFirstArgs} args - Arguments to find a Wagon
+     * @example
+     * // Get one Wagon
+     * const wagon = await prisma.wagon.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WagonFindFirstArgs>(args?: SelectSubset<T, WagonFindFirstArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Wagon that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WagonFindFirstOrThrowArgs} args - Arguments to find a Wagon
+     * @example
+     * // Get one Wagon
+     * const wagon = await prisma.wagon.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WagonFindFirstOrThrowArgs>(args?: SelectSubset<T, WagonFindFirstOrThrowArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Wagons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WagonFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Wagons
+     * const wagons = await prisma.wagon.findMany()
+     * 
+     * // Get first 10 Wagons
+     * const wagons = await prisma.wagon.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const wagonWithIdOnly = await prisma.wagon.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WagonFindManyArgs>(args?: SelectSubset<T, WagonFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Wagon.
+     * @param {WagonCreateArgs} args - Arguments to create a Wagon.
+     * @example
+     * // Create one Wagon
+     * const Wagon = await prisma.wagon.create({
+     *   data: {
+     *     // ... data to create a Wagon
+     *   }
+     * })
+     * 
+     */
+    create<T extends WagonCreateArgs>(args: SelectSubset<T, WagonCreateArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Wagons.
+     * @param {WagonCreateManyArgs} args - Arguments to create many Wagons.
+     * @example
+     * // Create many Wagons
+     * const wagon = await prisma.wagon.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WagonCreateManyArgs>(args?: SelectSubset<T, WagonCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Wagons and returns the data saved in the database.
+     * @param {WagonCreateManyAndReturnArgs} args - Arguments to create many Wagons.
+     * @example
+     * // Create many Wagons
+     * const wagon = await prisma.wagon.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Wagons and only return the `id`
+     * const wagonWithIdOnly = await prisma.wagon.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WagonCreateManyAndReturnArgs>(args?: SelectSubset<T, WagonCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Wagon.
+     * @param {WagonDeleteArgs} args - Arguments to delete one Wagon.
+     * @example
+     * // Delete one Wagon
+     * const Wagon = await prisma.wagon.delete({
+     *   where: {
+     *     // ... filter to delete one Wagon
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WagonDeleteArgs>(args: SelectSubset<T, WagonDeleteArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Wagon.
+     * @param {WagonUpdateArgs} args - Arguments to update one Wagon.
+     * @example
+     * // Update one Wagon
+     * const wagon = await prisma.wagon.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WagonUpdateArgs>(args: SelectSubset<T, WagonUpdateArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Wagons.
+     * @param {WagonDeleteManyArgs} args - Arguments to filter Wagons to delete.
+     * @example
+     * // Delete a few Wagons
+     * const { count } = await prisma.wagon.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WagonDeleteManyArgs>(args?: SelectSubset<T, WagonDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Wagons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WagonUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Wagons
+     * const wagon = await prisma.wagon.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WagonUpdateManyArgs>(args: SelectSubset<T, WagonUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Wagons and returns the data updated in the database.
+     * @param {WagonUpdateManyAndReturnArgs} args - Arguments to update many Wagons.
+     * @example
+     * // Update many Wagons
+     * const wagon = await prisma.wagon.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Wagons and only return the `id`
+     * const wagonWithIdOnly = await prisma.wagon.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WagonUpdateManyAndReturnArgs>(args: SelectSubset<T, WagonUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Wagon.
+     * @param {WagonUpsertArgs} args - Arguments to update or create a Wagon.
+     * @example
+     * // Update or create a Wagon
+     * const wagon = await prisma.wagon.upsert({
+     *   create: {
+     *     // ... data to create a Wagon
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Wagon we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WagonUpsertArgs>(args: SelectSubset<T, WagonUpsertArgs<ExtArgs>>): Prisma__WagonClient<$Result.GetResult<Prisma.$WagonPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Wagons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WagonCountArgs} args - Arguments to filter Wagons to count.
+     * @example
+     * // Count the number of Wagons
+     * const count = await prisma.wagon.count({
+     *   where: {
+     *     // ... the filter for the Wagons we want to count
+     *   }
+     * })
+    **/
+    count<T extends WagonCountArgs>(
+      args?: Subset<T, WagonCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WagonCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Wagon.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WagonAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WagonAggregateArgs>(args: Subset<T, WagonAggregateArgs>): Prisma.PrismaPromise<GetWagonAggregateType<T>>
+
+    /**
+     * Group by Wagon.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WagonGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WagonGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WagonGroupByArgs['orderBy'] }
+        : { orderBy?: WagonGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WagonGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWagonGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Wagon model
+   */
+  readonly fields: WagonFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Wagon.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WagonClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    manufacturer<T extends ManufacturerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ManufacturerDefaultArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Wagon model
+   */
+  interface WagonFieldRefs {
+    readonly id: FieldRef<"Wagon", 'String'>
+    readonly name: FieldRef<"Wagon", 'String'>
+    readonly createdAt: FieldRef<"Wagon", 'DateTime'>
+    readonly updatedAt: FieldRef<"Wagon", 'DateTime'>
+    readonly creatorId: FieldRef<"Wagon", 'String'>
+    readonly manufacturerId: FieldRef<"Wagon", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Wagon findUnique
+   */
+  export type WagonFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * Filter, which Wagon to fetch.
+     */
+    where: WagonWhereUniqueInput
+  }
+
+  /**
+   * Wagon findUniqueOrThrow
+   */
+  export type WagonFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * Filter, which Wagon to fetch.
+     */
+    where: WagonWhereUniqueInput
+  }
+
+  /**
+   * Wagon findFirst
+   */
+  export type WagonFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * Filter, which Wagon to fetch.
+     */
+    where?: WagonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wagons to fetch.
+     */
+    orderBy?: WagonOrderByWithRelationInput | WagonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Wagons.
+     */
+    cursor?: WagonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wagons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wagons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Wagons.
+     */
+    distinct?: WagonScalarFieldEnum | WagonScalarFieldEnum[]
+  }
+
+  /**
+   * Wagon findFirstOrThrow
+   */
+  export type WagonFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * Filter, which Wagon to fetch.
+     */
+    where?: WagonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wagons to fetch.
+     */
+    orderBy?: WagonOrderByWithRelationInput | WagonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Wagons.
+     */
+    cursor?: WagonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wagons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wagons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Wagons.
+     */
+    distinct?: WagonScalarFieldEnum | WagonScalarFieldEnum[]
+  }
+
+  /**
+   * Wagon findMany
+   */
+  export type WagonFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * Filter, which Wagons to fetch.
+     */
+    where?: WagonWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Wagons to fetch.
+     */
+    orderBy?: WagonOrderByWithRelationInput | WagonOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Wagons.
+     */
+    cursor?: WagonWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Wagons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Wagons.
+     */
+    skip?: number
+    distinct?: WagonScalarFieldEnum | WagonScalarFieldEnum[]
+  }
+
+  /**
+   * Wagon create
+   */
+  export type WagonCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Wagon.
+     */
+    data: XOR<WagonCreateInput, WagonUncheckedCreateInput>
+  }
+
+  /**
+   * Wagon createMany
+   */
+  export type WagonCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Wagons.
+     */
+    data: WagonCreateManyInput | WagonCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Wagon createManyAndReturn
+   */
+  export type WagonCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * The data used to create many Wagons.
+     */
+    data: WagonCreateManyInput | WagonCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Wagon update
+   */
+  export type WagonUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Wagon.
+     */
+    data: XOR<WagonUpdateInput, WagonUncheckedUpdateInput>
+    /**
+     * Choose, which Wagon to update.
+     */
+    where: WagonWhereUniqueInput
+  }
+
+  /**
+   * Wagon updateMany
+   */
+  export type WagonUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Wagons.
+     */
+    data: XOR<WagonUpdateManyMutationInput, WagonUncheckedUpdateManyInput>
+    /**
+     * Filter which Wagons to update
+     */
+    where?: WagonWhereInput
+    /**
+     * Limit how many Wagons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Wagon updateManyAndReturn
+   */
+  export type WagonUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * The data used to update Wagons.
+     */
+    data: XOR<WagonUpdateManyMutationInput, WagonUncheckedUpdateManyInput>
+    /**
+     * Filter which Wagons to update
+     */
+    where?: WagonWhereInput
+    /**
+     * Limit how many Wagons to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Wagon upsert
+   */
+  export type WagonUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Wagon to update in case it exists.
+     */
+    where: WagonWhereUniqueInput
+    /**
+     * In case the Wagon found by the `where` argument doesn't exist, create a new Wagon with this data.
+     */
+    create: XOR<WagonCreateInput, WagonUncheckedCreateInput>
+    /**
+     * In case the Wagon was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WagonUpdateInput, WagonUncheckedUpdateInput>
+  }
+
+  /**
+   * Wagon delete
+   */
+  export type WagonDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+    /**
+     * Filter which Wagon to delete.
+     */
+    where: WagonWhereUniqueInput
+  }
+
+  /**
+   * Wagon deleteMany
+   */
+  export type WagonDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Wagons to delete
+     */
+    where?: WagonWhereInput
+    /**
+     * Limit how many Wagons to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Wagon without action
+   */
+  export type WagonDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Wagon
+     */
+    select?: WagonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Wagon
+     */
+    omit?: WagonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: WagonInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1905,6 +4258,29 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const ManufacturerScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    creatorId: 'creatorId'
+  };
+
+  export type ManufacturerScalarFieldEnum = (typeof ManufacturerScalarFieldEnum)[keyof typeof ManufacturerScalarFieldEnum]
+
+
+  export const WagonScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    creatorId: 'creatorId',
+    manufacturerId: 'manufacturerId'
+  };
+
+  export type WagonScalarFieldEnum = (typeof WagonScalarFieldEnum)[keyof typeof WagonScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2039,6 +4415,121 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
+  export type ManufacturerWhereInput = {
+    AND?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    OR?: ManufacturerWhereInput[]
+    NOT?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    id?: StringFilter<"Manufacturer"> | string
+    name?: StringFilter<"Manufacturer"> | string
+    createdAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    updatedAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    creatorId?: StringFilter<"Manufacturer"> | string
+    Wagons?: WagonListRelationFilter
+  }
+
+  export type ManufacturerOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+    Wagons?: WagonOrderByRelationAggregateInput
+  }
+
+  export type ManufacturerWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    OR?: ManufacturerWhereInput[]
+    NOT?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    name?: StringFilter<"Manufacturer"> | string
+    createdAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    updatedAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    creatorId?: StringFilter<"Manufacturer"> | string
+    Wagons?: WagonListRelationFilter
+  }, "id">
+
+  export type ManufacturerOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+    _count?: ManufacturerCountOrderByAggregateInput
+    _max?: ManufacturerMaxOrderByAggregateInput
+    _min?: ManufacturerMinOrderByAggregateInput
+  }
+
+  export type ManufacturerScalarWhereWithAggregatesInput = {
+    AND?: ManufacturerScalarWhereWithAggregatesInput | ManufacturerScalarWhereWithAggregatesInput[]
+    OR?: ManufacturerScalarWhereWithAggregatesInput[]
+    NOT?: ManufacturerScalarWhereWithAggregatesInput | ManufacturerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Manufacturer"> | string
+    name?: StringWithAggregatesFilter<"Manufacturer"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Manufacturer"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Manufacturer"> | Date | string
+    creatorId?: StringWithAggregatesFilter<"Manufacturer"> | string
+  }
+
+  export type WagonWhereInput = {
+    AND?: WagonWhereInput | WagonWhereInput[]
+    OR?: WagonWhereInput[]
+    NOT?: WagonWhereInput | WagonWhereInput[]
+    id?: StringFilter<"Wagon"> | string
+    name?: StringFilter<"Wagon"> | string
+    createdAt?: DateTimeFilter<"Wagon"> | Date | string
+    updatedAt?: DateTimeFilter<"Wagon"> | Date | string
+    creatorId?: StringFilter<"Wagon"> | string
+    manufacturerId?: StringFilter<"Wagon"> | string
+    manufacturer?: XOR<ManufacturerScalarRelationFilter, ManufacturerWhereInput>
+  }
+
+  export type WagonOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+    manufacturerId?: SortOrder
+    manufacturer?: ManufacturerOrderByWithRelationInput
+  }
+
+  export type WagonWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: WagonWhereInput | WagonWhereInput[]
+    OR?: WagonWhereInput[]
+    NOT?: WagonWhereInput | WagonWhereInput[]
+    name?: StringFilter<"Wagon"> | string
+    createdAt?: DateTimeFilter<"Wagon"> | Date | string
+    updatedAt?: DateTimeFilter<"Wagon"> | Date | string
+    creatorId?: StringFilter<"Wagon"> | string
+    manufacturerId?: StringFilter<"Wagon"> | string
+    manufacturer?: XOR<ManufacturerScalarRelationFilter, ManufacturerWhereInput>
+  }, "id">
+
+  export type WagonOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+    manufacturerId?: SortOrder
+    _count?: WagonCountOrderByAggregateInput
+    _max?: WagonMaxOrderByAggregateInput
+    _min?: WagonMinOrderByAggregateInput
+  }
+
+  export type WagonScalarWhereWithAggregatesInput = {
+    AND?: WagonScalarWhereWithAggregatesInput | WagonScalarWhereWithAggregatesInput[]
+    OR?: WagonScalarWhereWithAggregatesInput[]
+    NOT?: WagonScalarWhereWithAggregatesInput | WagonScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Wagon"> | string
+    name?: StringWithAggregatesFilter<"Wagon"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Wagon"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Wagon"> | Date | string
+    creatorId?: StringWithAggregatesFilter<"Wagon"> | string
+    manufacturerId?: StringWithAggregatesFilter<"Wagon"> | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -2093,6 +4584,128 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManufacturerCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+    Wagons?: WagonCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+    Wagons?: WagonUncheckedCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    Wagons?: WagonUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type ManufacturerUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    Wagons?: WagonUncheckedUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type ManufacturerCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+  }
+
+  export type ManufacturerUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ManufacturerUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WagonCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+    manufacturer: ManufacturerCreateNestedOneWithoutWagonsInput
+  }
+
+  export type WagonUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+    manufacturerId: string
+  }
+
+  export type WagonUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    manufacturer?: ManufacturerUpdateOneRequiredWithoutWagonsNestedInput
+  }
+
+  export type WagonUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    manufacturerId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WagonCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+    manufacturerId: string
+  }
+
+  export type WagonUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WagonUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    manufacturerId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2194,6 +4807,72 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type WagonListRelationFilter = {
+    every?: WagonWhereInput
+    some?: WagonWhereInput
+    none?: WagonWhereInput
+  }
+
+  export type WagonOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ManufacturerCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type ManufacturerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type ManufacturerMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type ManufacturerScalarRelationFilter = {
+    is?: ManufacturerWhereInput
+    isNot?: ManufacturerWhereInput
+  }
+
+  export type WagonCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+    manufacturerId?: SortOrder
+  }
+
+  export type WagonMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+    manufacturerId?: SortOrder
+  }
+
+  export type WagonMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorId?: SortOrder
+    manufacturerId?: SortOrder
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -2204,6 +4883,62 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type WagonCreateNestedManyWithoutManufacturerInput = {
+    create?: XOR<WagonCreateWithoutManufacturerInput, WagonUncheckedCreateWithoutManufacturerInput> | WagonCreateWithoutManufacturerInput[] | WagonUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: WagonCreateOrConnectWithoutManufacturerInput | WagonCreateOrConnectWithoutManufacturerInput[]
+    createMany?: WagonCreateManyManufacturerInputEnvelope
+    connect?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+  }
+
+  export type WagonUncheckedCreateNestedManyWithoutManufacturerInput = {
+    create?: XOR<WagonCreateWithoutManufacturerInput, WagonUncheckedCreateWithoutManufacturerInput> | WagonCreateWithoutManufacturerInput[] | WagonUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: WagonCreateOrConnectWithoutManufacturerInput | WagonCreateOrConnectWithoutManufacturerInput[]
+    createMany?: WagonCreateManyManufacturerInputEnvelope
+    connect?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+  }
+
+  export type WagonUpdateManyWithoutManufacturerNestedInput = {
+    create?: XOR<WagonCreateWithoutManufacturerInput, WagonUncheckedCreateWithoutManufacturerInput> | WagonCreateWithoutManufacturerInput[] | WagonUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: WagonCreateOrConnectWithoutManufacturerInput | WagonCreateOrConnectWithoutManufacturerInput[]
+    upsert?: WagonUpsertWithWhereUniqueWithoutManufacturerInput | WagonUpsertWithWhereUniqueWithoutManufacturerInput[]
+    createMany?: WagonCreateManyManufacturerInputEnvelope
+    set?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    disconnect?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    delete?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    connect?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    update?: WagonUpdateWithWhereUniqueWithoutManufacturerInput | WagonUpdateWithWhereUniqueWithoutManufacturerInput[]
+    updateMany?: WagonUpdateManyWithWhereWithoutManufacturerInput | WagonUpdateManyWithWhereWithoutManufacturerInput[]
+    deleteMany?: WagonScalarWhereInput | WagonScalarWhereInput[]
+  }
+
+  export type WagonUncheckedUpdateManyWithoutManufacturerNestedInput = {
+    create?: XOR<WagonCreateWithoutManufacturerInput, WagonUncheckedCreateWithoutManufacturerInput> | WagonCreateWithoutManufacturerInput[] | WagonUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: WagonCreateOrConnectWithoutManufacturerInput | WagonCreateOrConnectWithoutManufacturerInput[]
+    upsert?: WagonUpsertWithWhereUniqueWithoutManufacturerInput | WagonUpsertWithWhereUniqueWithoutManufacturerInput[]
+    createMany?: WagonCreateManyManufacturerInputEnvelope
+    set?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    disconnect?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    delete?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    connect?: WagonWhereUniqueInput | WagonWhereUniqueInput[]
+    update?: WagonUpdateWithWhereUniqueWithoutManufacturerInput | WagonUpdateWithWhereUniqueWithoutManufacturerInput[]
+    updateMany?: WagonUpdateManyWithWhereWithoutManufacturerInput | WagonUpdateManyWithWhereWithoutManufacturerInput[]
+    deleteMany?: WagonScalarWhereInput | WagonScalarWhereInput[]
+  }
+
+  export type ManufacturerCreateNestedOneWithoutWagonsInput = {
+    create?: XOR<ManufacturerCreateWithoutWagonsInput, ManufacturerUncheckedCreateWithoutWagonsInput>
+    connectOrCreate?: ManufacturerCreateOrConnectWithoutWagonsInput
+    connect?: ManufacturerWhereUniqueInput
+  }
+
+  export type ManufacturerUpdateOneRequiredWithoutWagonsNestedInput = {
+    create?: XOR<ManufacturerCreateWithoutWagonsInput, ManufacturerUncheckedCreateWithoutWagonsInput>
+    connectOrCreate?: ManufacturerCreateOrConnectWithoutWagonsInput
+    upsert?: ManufacturerUpsertWithoutWagonsInput
+    connect?: ManufacturerWhereUniqueInput
+    update?: XOR<XOR<ManufacturerUpdateToOneWithWhereWithoutWagonsInput, ManufacturerUpdateWithoutWagonsInput>, ManufacturerUncheckedUpdateWithoutWagonsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2288,6 +5023,140 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type WagonCreateWithoutManufacturerInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+  }
+
+  export type WagonUncheckedCreateWithoutManufacturerInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+  }
+
+  export type WagonCreateOrConnectWithoutManufacturerInput = {
+    where: WagonWhereUniqueInput
+    create: XOR<WagonCreateWithoutManufacturerInput, WagonUncheckedCreateWithoutManufacturerInput>
+  }
+
+  export type WagonCreateManyManufacturerInputEnvelope = {
+    data: WagonCreateManyManufacturerInput | WagonCreateManyManufacturerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type WagonUpsertWithWhereUniqueWithoutManufacturerInput = {
+    where: WagonWhereUniqueInput
+    update: XOR<WagonUpdateWithoutManufacturerInput, WagonUncheckedUpdateWithoutManufacturerInput>
+    create: XOR<WagonCreateWithoutManufacturerInput, WagonUncheckedCreateWithoutManufacturerInput>
+  }
+
+  export type WagonUpdateWithWhereUniqueWithoutManufacturerInput = {
+    where: WagonWhereUniqueInput
+    data: XOR<WagonUpdateWithoutManufacturerInput, WagonUncheckedUpdateWithoutManufacturerInput>
+  }
+
+  export type WagonUpdateManyWithWhereWithoutManufacturerInput = {
+    where: WagonScalarWhereInput
+    data: XOR<WagonUpdateManyMutationInput, WagonUncheckedUpdateManyWithoutManufacturerInput>
+  }
+
+  export type WagonScalarWhereInput = {
+    AND?: WagonScalarWhereInput | WagonScalarWhereInput[]
+    OR?: WagonScalarWhereInput[]
+    NOT?: WagonScalarWhereInput | WagonScalarWhereInput[]
+    id?: StringFilter<"Wagon"> | string
+    name?: StringFilter<"Wagon"> | string
+    createdAt?: DateTimeFilter<"Wagon"> | Date | string
+    updatedAt?: DateTimeFilter<"Wagon"> | Date | string
+    creatorId?: StringFilter<"Wagon"> | string
+    manufacturerId?: StringFilter<"Wagon"> | string
+  }
+
+  export type ManufacturerCreateWithoutWagonsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+  }
+
+  export type ManufacturerUncheckedCreateWithoutWagonsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+  }
+
+  export type ManufacturerCreateOrConnectWithoutWagonsInput = {
+    where: ManufacturerWhereUniqueInput
+    create: XOR<ManufacturerCreateWithoutWagonsInput, ManufacturerUncheckedCreateWithoutWagonsInput>
+  }
+
+  export type ManufacturerUpsertWithoutWagonsInput = {
+    update: XOR<ManufacturerUpdateWithoutWagonsInput, ManufacturerUncheckedUpdateWithoutWagonsInput>
+    create: XOR<ManufacturerCreateWithoutWagonsInput, ManufacturerUncheckedCreateWithoutWagonsInput>
+    where?: ManufacturerWhereInput
+  }
+
+  export type ManufacturerUpdateToOneWithWhereWithoutWagonsInput = {
+    where?: ManufacturerWhereInput
+    data: XOR<ManufacturerUpdateWithoutWagonsInput, ManufacturerUncheckedUpdateWithoutWagonsInput>
+  }
+
+  export type ManufacturerUpdateWithoutWagonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ManufacturerUncheckedUpdateWithoutWagonsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WagonCreateManyManufacturerInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creatorId: string
+  }
+
+  export type WagonUpdateWithoutManufacturerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WagonUncheckedUpdateWithoutManufacturerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type WagonUncheckedUpdateManyWithoutManufacturerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creatorId?: StringFieldUpdateOperationsInput | string
   }
 
 

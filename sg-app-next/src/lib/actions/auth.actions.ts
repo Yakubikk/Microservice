@@ -29,9 +29,7 @@ const registerSchema = loginSchema.extend({
     path: ["confirmPassword"],
 });
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-export async function login(prevState, formData: FormData) {
+export async function login(prevState: unknown, formData: FormData) {
     const result = loginSchema.safeParse(Object.fromEntries(formData));
 
     if (!result.success) {
@@ -62,9 +60,7 @@ export async function login(prevState, formData: FormData) {
     redirect("/");
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-export async function register(prevState, formData: FormData) {
+export async function register(prevState: unknown, formData: FormData) {
     const result = registerSchema.safeParse(Object.fromEntries(formData));
 
     if (!result.success) {
