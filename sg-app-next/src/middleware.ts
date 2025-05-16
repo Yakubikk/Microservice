@@ -37,7 +37,7 @@ export default async function middleware(req: NextRequest) {
 
         // Проверяем, есть ли у пользователя нужная роль
         if (session.userRole && !requiredRoles.includes(<"USER" | "MODERATOR" | "ADMIN">session.userRole)) {
-            // Если нет - редирект на главную или страницу "доступ запрещён"
+            // Если нет - редирект на страницу "Unauthorized"
             return NextResponse.redirect(new URL("/unauthorized", req.nextUrl));
             // Или можно вернуть 403:
             // return new NextResponse("Forbidden", { status: 403 });

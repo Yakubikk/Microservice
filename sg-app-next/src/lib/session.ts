@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 const secretKey = process.env.SESSION_SECRET;
 if (!secretKey || secretKey.length < 32) {
     throw new Error(
-        "SESSION_SECRET environment variable must be set and at least 32 characters long"
+        "Необходимо задать переменную среды SESSION_SECRET длиной не менее 32 символов"
     );
 }
 
@@ -54,6 +54,6 @@ export async function decrypt(session: string | undefined = "") {
         });
         return payload;
     } catch {
-        console.log("Failed to verify session");
+        console.log("Не удалось проверить сеанс");
     }
 }

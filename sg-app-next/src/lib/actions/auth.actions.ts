@@ -23,7 +23,7 @@ const loginSchema = z.object({
 
 // Схема для регистрации (расширяет схему входа)
 const registerSchema = loginSchema.extend({
-    confirmPassword: z.string().min(8, { message: "Пароль должен содержать не менее 8 символов" }).trim(),
+    confirmPassword: z.string().trim(),
 }).refine(data => data.password === data.confirmPassword, {
     message: "Пароли не совпадают",
     path: ["confirmPassword"],
