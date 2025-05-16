@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
             <form
                 autoComplete='on'
                 action={loginAction}
-                className="flex max-w-[300px] flex-col gap-2"
+                className="flex max-w-[600px] flex-col gap-2"
             >
                 <TextField
                     name="email"
@@ -36,6 +36,12 @@ const LoginForm: React.FC = () => {
                     />
                     <label htmlFor="rememberMe">Запомнить меня</label>
                 </div>
+
+                {state?.errors && (
+                    <p className="text-red-500 text-sm">
+                        {state?.errors.email?.[0] || state?.errors.password?.[0]}
+                    </p>
+                )}
 
                 <SubmitButton pendingText='Вход...'>
                     Войти

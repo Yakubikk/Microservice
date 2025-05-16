@@ -12,7 +12,7 @@ const RegisterForm: React.FC = () => {
             <form
                 autoComplete='off'
                 action={registerAction}
-                className="flex max-w-[300px] flex-col gap-4"
+                className="flex max-w-[600px] flex-col gap-4"
             >
                 <TextField
                     name="email"
@@ -35,9 +35,13 @@ const RegisterForm: React.FC = () => {
                     required
                 />
 
-                <SubmitButton
-                    pendingText='Регистрация...'
-                >
+                {state?.errors && (
+                    <p className="text-red-500 text-sm">
+                        {state?.errors.email?.[0] || state?.errors.password?.[0] || state?.errors.confirmPassword?.[0]}
+                    </p>
+                )}
+
+                <SubmitButton pendingText='Регистрация...'>
                     Зарегистрироваться
                 </SubmitButton>
             </form>
