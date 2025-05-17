@@ -1,6 +1,6 @@
 import {getSession} from "./session";
 import prisma from "@/lib/prisma";
-import {$Enums} from "@/generated/prisma";
+import {$Enums} from '@prisma/client';
 import Role = $Enums.Role;
 
 // 1. Типы для системы прав

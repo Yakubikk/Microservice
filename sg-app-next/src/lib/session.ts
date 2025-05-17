@@ -3,7 +3,7 @@
 import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import {$Enums} from "@/generated/prisma";
+import {$Enums} from '@prisma/client';
 import Role = $Enums.Role;
 
 type SessionPayload = {
@@ -35,7 +35,7 @@ export async function createSession(
 
     (await cookies()).set("session", session, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        // secure: process.env.NODE_ENV === "production",
         expires: expiresAt,
         sameSite: "lax",
         path: "/",
