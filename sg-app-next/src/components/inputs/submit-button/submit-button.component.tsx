@@ -10,7 +10,7 @@ interface SubmitButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement
     pendingText?: string;
 }
 
-const SubmitButton: React.FC<SubmitButtonProps> = ({ children, pendingText, ...props }) => {
+const SubmitButton: React.FC<SubmitButtonProps> = ({ children, pendingText, disabled, ...props }) => {
     const { pending } = useFormStatus();
     const formContext = useContext(FormContext);
 
@@ -20,11 +20,11 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({ children, pendingText, ...p
 
     return (
         <button
-            disabled={pending}
+            disabled={pending || disabled}
             type="submit"
             {...props}
             className={cn(
-                'px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:opacity-50 cursor-pointer',
+                'px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:hover:bg-green-500 disabled:opacity-50 cursor-pointer disabled:cursor-default',
                 props.className,
             )}
         >

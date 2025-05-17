@@ -45,21 +45,10 @@ const resourceOwners: Partial<Record<Resource, ResourceOwnerCheck>> = {
         });
         return manufacturer?.creatorId === userId;
     },
+    user: async (userId, resourceUserId) => {
+        return userId === resourceUserId;
+    },
 };
-
-// 4. Основные функции для работы с правами
-let sessionCache: { userId: string; userRole: Role } | null | undefined;
-
-async function getCurrentSession() {
-    if (sessionCache === undefined) {
-        sessionCache = await getSession();
-    }
-    return sessionCache;
-}
-
-function clearSessionCache() {
-    sessionCache = undefined;
-}
 
 async function checkResourceOwnership(
     resource: Resource,
@@ -80,7 +69,7 @@ export async function checkPermission<T extends Resource>(
     resourceId?: string
 ): Promise<PermissionResult> {
     try {
-        const session = await getCurrentSession();
+        const session = await getSession();
 
         if (!session) {
             return { allowed: false, reason: "Ошибка: Пользователь не авторизован" };
@@ -103,13 +92,12 @@ export async function checkPermission<T extends Resource>(
         if (!allowedRoles.includes(session.userRole)) {
             return {
                 allowed: false,
-                reason: `Отказано: Роль ${session.userRole} не имеет прав на ${String(action)} для ${resource}`,
+                reason: `Отказано: Роль ${session.userRole} не имеет прав на ${String(action)} для ${resource}, требуются: ${allowedRoles.join(", ")} или владелец`,
             };
         }
 
         return { allowed: true };
     } catch (error) {
-        clearSessionCache();
         return {
             allowed: false,
             reason: error instanceof Error ? error.message : "Неизвестная ошибка при проверке прав",

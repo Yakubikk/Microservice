@@ -4,16 +4,17 @@ import { z } from "zod";
 import prisma from "@/lib/prisma";
 import { wagonPermissions } from "@/lib/permissions";
 import { getSession } from "@/lib/session";
+import { uuidSchema } from "@/types";
 
 // Схема для создания вагона
 const createWagonSchema = z.object({
     name: z.string().min(1, { message: "Название обязательно" }).trim(),
-    manufacturerId: z.string().min(1, { message: "Производитель обязателен" }),
+    manufacturerId: uuidSchema,
 });
 
 // Схема для обновления вагона
 const updateWagonSchema = createWagonSchema.extend({
-    id: z.string().min(1, { message: "ID вагона обязательно" }),
+    id: uuidSchema,
 });
 
 export async function createWagon(prevState: unknown, formData: FormData) {
@@ -47,7 +48,7 @@ export async function createWagon(prevState: unknown, formData: FormData) {
     } catch (error) {
         console.error("Ошибка при создании вагона:", error);
         return {
-            errors: { general: [error || "Не удалось создать вагон"] },
+            errors: { general: [error instanceof Error ? error.message : "Не удалось создать вагон"] },
         };
     }
 }
@@ -99,7 +100,7 @@ export async function updateWagon(prevState: unknown, formData: FormData) {
     } catch (error) {
         console.error("Ошибка при обновлении вагона:", error);
         return {
-            errors: { general: [error || "Не удалось обновить вагон"] },
+            errors: { general: [error instanceof Error ? error.message : "Не удалось обновить вагон"] },
         };
     }
 }
@@ -128,7 +129,7 @@ export async function deleteWagon(id: string) {
     } catch (error) {
         console.error("Ошибка при удалении вагона:", error);
         return {
-            errors: { general: [error || "Не удалось удалить вагон"] },
+            errors: { general: [error instanceof Error ? error.message : "Не удалось удалить вагон"] },
         };
     }
 }
@@ -147,7 +148,9 @@ export async function getWagons() {
         });
     } catch (error) {
         console.error("Ошибка при получении списка вагонов:", error);
-        return [];
+        return {
+            errors: { general: [error instanceof Error ? error.message : "Не удалось получить список вагонов"] },
+        };
     }
 }
 
@@ -165,6 +168,88 @@ export async function getWagonById(id: string) {
         });
     } catch (error) {
         console.error("Ошибка при получении вагона:", error);
-        return null;
+        return {
+            errors: { general: [error instanceof Error ? error.message : "Не удалось получить вагон"] },
+        };
+    }
+}
+
+export async function getWagonsByName(name: string) {
+    try {
+        // Проверяем права на чтение
+        const permission = await wagonPermissions.canRead();
+        if (!permission.allowed) {
+            throw new Error(permission.reason);
+        }
+
+        return await prisma.wagon.findMany({
+            where: { name },
+            include: { manufacturer: true },
+        });
+    } catch (error) {
+        console.error("Ошибка при получении вагона по имени:", error);
+        return {
+            errors: { general: [error instanceof Error ? error.message : "Не удалось получить вагон"] },
+        };
+    }
+}
+
+export async function getWagonsByManufacturerId(manufacturerId: string) {
+    try {
+        // Проверяем права на чтение
+        const permission = await wagonPermissions.canRead();
+        if (!permission.allowed) {
+            throw new Error(permission.reason);
+        }
+
+        return await prisma.wagon.findMany({
+            where: { manufacturerId },
+            include: { manufacturer: true },
+        });
+    } catch (error) {
+        console.error("Ошибка при получении вагонов по ID производителя:", error);
+        return {
+            errors: { general: [error instanceof Error ? error.message : "Не удалось получить вагоны"] },
+        };
+    }
+}
+
+export async function getWagonsByCreatorId(creatorId: string) {
+    try {
+        // Проверяем права на чтение
+        const permission = await wagonPermissions.canRead();
+        if (!permission.allowed) {
+            throw new Error(permission.reason);
+        }
+
+        return await prisma.wagon.findMany({
+            where: { creatorId },
+            include: { manufacturer: true },
+        });
+    } catch (error) {
+        console.error("Ошибка при получении вагонов по ID создателя:", error);
+        return {
+            errors: { general: [error instanceof Error ? error.message : "Не удалось получить вагоны"] },
+        };
+    }
+}
+
+export async function getWagonsByCreatorIdAndName(creatorId: string, name: string) {
+    try {
+        // Проверяем права на чтение
+        const permission = await wagonPermissions.canRead();
+        if (!permission.allowed) {
+            throw new Error(permission.reason);
+        }
+
+        return await prisma.wagon.findMany({
+            where: { creatorId, name },
+            include: { manufacturer: true },
+        });
+    } catch (error) {
+        console.error("Ошибка при получении вагонов по ID создателя и имени:", error);
+        return {
+            errors: { general: [error instanceof Error ? error.message : "Не удалось получить вагоны"] },
+        };
     }
 }
