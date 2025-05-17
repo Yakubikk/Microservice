@@ -16,9 +16,14 @@ const updateManufacturerSchema = createManufacturerSchema.extend({
     id: uuidSchema,
 });
 
-export async function createManufacturer(prevState: unknown, formData: FormData) {
+export async function createManufacturer(
+    prevState: unknown,
+    formData: FormData
+) {
     try {
-        const result = createManufacturerSchema.safeParse(Object.fromEntries(formData));
+        const result = createManufacturerSchema.safeParse(
+            Object.fromEntries(formData)
+        );
         if (!result.success) {
             return { errors: result.error.flatten().fieldErrors };
         }
@@ -37,14 +42,26 @@ export async function createManufacturer(prevState: unknown, formData: FormData)
     } catch (error) {
         console.error("Ошибка при создании производителя:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось создать производителя"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось создать производителя",
+                ],
+            },
         };
     }
 }
 
-export async function updateManufacturer(prevState: unknown, formData: FormData) {
+export async function updateManufacturer(
+    prevState: unknown,
+    formData: FormData,
+    token?: string
+) {
     try {
-        const result = updateManufacturerSchema.safeParse(Object.fromEntries(formData));
+        const result = updateManufacturerSchema.safeParse(
+            Object.fromEntries(formData)
+        );
         if (!result.success) {
             return { errors: result.error.flatten().fieldErrors };
         }
@@ -52,9 +69,9 @@ export async function updateManufacturer(prevState: unknown, formData: FormData)
         const { id, name } = result.data;
 
         // Проверяем права с учетом владения
-        const permission = await manufacturerPermissions.canUpdate(id);
+        const permission = await manufacturerPermissions.canUpdate(id, token);
         if (!permission.allowed) {
-            return { errors: { general: [permission.reason] } };
+            throw new Error(permission.reason);
         }
 
         // Проверяем существование производителя
@@ -79,17 +96,23 @@ export async function updateManufacturer(prevState: unknown, formData: FormData)
     } catch (error) {
         console.error("Ошибка при обновлении производителя:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось обновить производителя"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось обновить производителя",
+                ],
+            },
         };
     }
 }
 
-export async function deleteManufacturer(id: string) {
+export async function deleteManufacturer(id: string, token?: string) {
     try {
         // Проверяем права с учетом владения
-        const permission = await manufacturerPermissions.canDelete(id);
+        const permission = await manufacturerPermissions.canDelete(id, token);
         if (!permission.allowed) {
-            return { errors: { general: [permission.reason] } };
+            throw new Error(permission.reason);
         }
 
         // Проверяем существование производителя
@@ -107,7 +130,13 @@ export async function deleteManufacturer(id: string) {
         });
 
         if (wagonsCount > 0) {
-            return { errors: { general: ["Нельзя удалить производителя с привязанными вагонами"] } };
+            return {
+                errors: {
+                    general: [
+                        "Нельзя удалить производителя с привязанными вагонами",
+                    ],
+                },
+            };
         }
 
         // Удаляем производителя
@@ -117,15 +146,24 @@ export async function deleteManufacturer(id: string) {
     } catch (error) {
         console.error("Ошибка при удалении производителя:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось удалить производителя"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось удалить производителя",
+                ],
+            },
         };
     }
 }
 
-export async function getManufacturers() {
+export async function getManufacturers(token?: string) {
     try {
         // Проверяем права на чтение
-        const permission = await manufacturerPermissions.canRead();
+        const permission = await manufacturerPermissions.canRead(
+            undefined,
+            token
+        );
         if (!permission.allowed) {
             throw new Error(permission.reason);
         }
@@ -136,15 +174,21 @@ export async function getManufacturers() {
     } catch (error) {
         console.error("Ошибка при получении списка производителей:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось получить список производителей"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось получить список производителей",
+                ],
+            },
         };
     }
 }
 
-export async function getManufacturerById(id: string) {
+export async function getManufacturerById(id: string, token?: string) {
     try {
         // Проверяем права на чтение с учетом владения
-        const permission = await manufacturerPermissions.canRead(id);
+        const permission = await manufacturerPermissions.canRead(id, token);
         if (!permission.allowed) {
             throw new Error(permission.reason);
         }
@@ -158,15 +202,24 @@ export async function getManufacturerById(id: string) {
     } catch (error) {
         console.error("Ошибка при получении производителя:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось получить производителя"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось получить производителя",
+                ],
+            },
         };
     }
 }
 
-export async function getManufacturerByName(name: string) {
+export async function getManufacturerByName(name: string, token?: string) {
     try {
         // Проверяем права на чтение
-        const permission = await manufacturerPermissions.canRead();
+        const permission = await manufacturerPermissions.canRead(
+            undefined,
+            token
+        );
         if (!permission.allowed) {
             throw new Error(permission.reason);
         }
@@ -180,15 +233,27 @@ export async function getManufacturerByName(name: string) {
     } catch (error) {
         console.error("Ошибка при получении производителя:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось получить производителя"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось получить производителя",
+                ],
+            },
         };
     }
 }
 
-export async function getManufacturerByCreatorId(creatorId: string) {
+export async function getManufacturerByCreatorId(
+    creatorId: string,
+    token?: string
+) {
     try {
         // Проверяем права на чтение
-        const permission = await manufacturerPermissions.canRead();
+        const permission = await manufacturerPermissions.canRead(
+            undefined,
+            token
+        );
         if (!permission.allowed) {
             throw new Error(permission.reason);
         }
@@ -202,15 +267,28 @@ export async function getManufacturerByCreatorId(creatorId: string) {
     } catch (error) {
         console.error("Ошибка при получении производителя:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось получить производителя"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось получить производителя",
+                ],
+            },
         };
     }
 }
 
-export async function getManufacturerByCreatorIdAndName(creatorId: string, name: string) {
+export async function getManufacturerByCreatorIdAndName(
+    creatorId: string,
+    name: string,
+    token?: string
+) {
     try {
         // Проверяем права на чтение
-        const permission = await manufacturerPermissions.canRead();
+        const permission = await manufacturerPermissions.canRead(
+            undefined,
+            token
+        );
         if (!permission.allowed) {
             throw new Error(permission.reason);
         }
@@ -224,7 +302,13 @@ export async function getManufacturerByCreatorIdAndName(creatorId: string, name:
     } catch (error) {
         console.error("Ошибка при получении производителя:", error);
         return {
-            errors: { general: [error instanceof Error ? error.message : "Не удалось получить производителя"] },
+            errors: {
+                general: [
+                    error instanceof Error
+                        ? error.message
+                        : "Не удалось получить производителя",
+                ],
+            },
         };
     }
 }

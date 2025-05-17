@@ -9,31 +9,38 @@ import prisma from "@/lib/prisma";
 // Схема для входа
 const loginSchema = z.object({
     email: z
-    .string()
-    .email({ message: "Неверный адрес электронной почты" })
-    .trim(),
+        .string()
+        .email({ message: "Неверный адрес электронной почты" })
+        .trim(),
 
     password: z
-    .string()
-    .min(8, { message: "Пароль должен содержать не менее 8 символов" })
-    .trim(),
+        .string()
+        .min(8, { message: "Пароль должен содержать не менее 8 символов" })
+        .trim(),
 
     rememberMe: z.string().optional(),
 });
 
 // Схема для регистрации (расширяет схему входа)
-const registerSchema = loginSchema.extend({
-    confirmPassword: z.string().trim(),
-}).refine(data => data.password === data.confirmPassword, {
-    message: "Пароли не совпадают",
-    path: ["confirmPassword"],
-});
+const registerSchema = loginSchema
+    .extend({
+        confirmPassword: z.string().trim(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Пароли не совпадают",
+        path: ["confirmPassword"],
+    });
 
-export async function login(prevState: unknown, formData: FormData) {
+export async function login(
+    prevState: unknown,
+    formData: FormData,
+    ext: boolean = false
+) {
     const result = loginSchema.safeParse(Object.fromEntries(formData));
+    let token;
 
     if (!result.success) {
-        console.log(result.error)
+        console.log(result.error);
         return { errors: result.error.flatten().fieldErrors };
     }
 
@@ -43,25 +50,39 @@ export async function login(prevState: unknown, formData: FormData) {
         const user = await prisma.user.findUnique({ where: { email } });
 
         if (!user) {
-            return { errors: { email: ["Неверный адрес электронной почты или пароль"] } };
+            return {
+                errors: {
+                    email: ["Неверный адрес электронной почты или пароль"],
+                },
+            };
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
-            return { errors: { email: ["Неверный адрес электронной почты или пароль"] } };
+            return {
+                errors: {
+                    email: ["Неверный адрес электронной почты или пароль"],
+                },
+            };
         }
 
-        await createSession(user.id, user.role, rememberMe);
+        token = await createSession(user.id, user.role, rememberMe, ext);
     } catch (error) {
         console.error("Ошибка входа:", error);
     }
 
-    redirect("/");
+    if (!ext) redirect("/");
+    else return { token };
 }
 
-export async function register(prevState: unknown, formData: FormData) {
+export async function register(
+    prevState: unknown,
+    formData: FormData,
+    ext: boolean = false
+) {
     const result = registerSchema.safeParse(Object.fromEntries(formData));
+    let token;
 
     if (!result.success) {
         return { errors: result.error.flatten().fieldErrors };
@@ -74,21 +95,28 @@ export async function register(prevState: unknown, formData: FormData) {
         const existingUser = await prisma.user.findUnique({ where: { email } });
 
         if (existingUser) {
-            return { errors: { email: ["Пользователь с таким адресом электронной почты уже существует"] } };
+            return {
+                errors: {
+                    email: [
+                        "Пользователь с таким адресом электронной почты уже существует",
+                    ],
+                },
+            };
         }
 
         // Хеширование пароля и создание пользователя
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await prisma.user.create({
-            data: { email, password: hashedPassword }
+            data: { email, password: hashedPassword },
         });
 
-        await createSession(newUser.id, newUser.role);
+        token = await createSession(newUser.id, newUser.role, undefined, ext);
     } catch (error) {
         console.error("Ошибка регистрации:", error);
     }
 
-    redirect("/");
+    if (!ext) redirect("/");
+    else return { token };
 }
 
 export async function logout() {

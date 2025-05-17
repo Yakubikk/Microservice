@@ -1,13 +1,16 @@
-import {getSession} from "./session";
+import { getSession } from "./session";
 import prisma from "@/lib/prisma";
-import {$Enums} from '@prisma/client';
+import { $Enums } from "@prisma/client";
 import Role = $Enums.Role;
 
 // 1. Типы для системы прав
 type Resource = keyof typeof PermissionConfig;
-type Action<T extends Resource> = keyof typeof PermissionConfig[T];
+type Action<T extends Resource> = keyof (typeof PermissionConfig)[T];
 type PermissionResult = { allowed: true } | { allowed: false; reason: string };
-type ResourceOwnerCheck = (resourceId: string, userId: string) => Promise<boolean>;
+type ResourceOwnerCheck = (
+    resourceId: string,
+    userId: string
+) => Promise<boolean>;
 
 // 2. Настройки прав доступа
 const PermissionConfig = {
@@ -66,13 +69,17 @@ async function checkResourceOwnership(
 export async function checkPermission<T extends Resource>(
     resource: T,
     action: Action<T>,
-    resourceId?: string
+    resourceId?: string,
+    token?: string
 ): Promise<PermissionResult> {
     try {
-        const session = await getSession();
+        const session = await getSession(token);
 
         if (!session) {
-            return { allowed: false, reason: "Ошибка: Пользователь не авторизован" };
+            return {
+                allowed: false,
+                reason: "Ошибка: Пользователь не авторизован",
+            };
         }
 
         // Владелец ресурса получает полный доступ
@@ -92,7 +99,13 @@ export async function checkPermission<T extends Resource>(
         if (!allowedRoles.includes(session.userRole)) {
             return {
                 allowed: false,
-                reason: `Отказано: Роль ${session.userRole} не имеет прав на ${String(action)} для ${resource}, требуются: ${allowedRoles.join(", ")} или владелец`,
+                reason: `Отказано: Роль ${
+                    session.userRole
+                } не имеет прав на ${String(
+                    action
+                )} для ${resource}, требуются: ${allowedRoles.join(
+                    ", "
+                )} или владелец`,
             };
         }
 
@@ -100,7 +113,10 @@ export async function checkPermission<T extends Resource>(
     } catch (error) {
         return {
             allowed: false,
-            reason: error instanceof Error ? error.message : "Неизвестная ошибка при проверке прав",
+            reason:
+                error instanceof Error
+                    ? error.message
+                    : "Неизвестная ошибка при проверке прав",
         };
     }
 }
@@ -110,11 +126,17 @@ export async function checkPermission<T extends Resource>(
  */
 export function createPermissionChecker<T extends Resource>(resource: T) {
     return {
-        check: <A extends Action<T>>(action: A, resourceId?: string) =>
-            checkPermission(resource, action, resourceId),
-        canRead: (resourceId?: string) => checkPermission(resource, "read", resourceId),
-        canUpdate: (resourceId?: string) => checkPermission(resource, "update", resourceId),
-        canDelete: (resourceId?: string) => checkPermission(resource, "delete", resourceId),
+        check: <A extends Action<T>>(
+            action: A,
+            resourceId?: string,
+            token?: string
+        ) => checkPermission(resource, action, resourceId, token),
+        canRead: (resourceId?: string, token?: string) =>
+            checkPermission(resource, "read", resourceId, token),
+        canUpdate: (resourceId?: string, token?: string) =>
+            checkPermission(resource, "update", resourceId, token),
+        canDelete: (resourceId?: string, token?: string) =>
+            checkPermission(resource, "delete", resourceId, token),
     };
 }
 
