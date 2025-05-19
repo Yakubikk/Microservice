@@ -15,6 +15,7 @@ export async function GET(request: Request) {
             );
         }
 
+        // Устанавливаем CORS headers
         return NextResponse.json(
             { success: true, data: manufacturers },
             { status: 200 }
@@ -23,10 +24,7 @@ export async function GET(request: Request) {
         return NextResponse.json(
             {
                 success: false,
-                error:
-                    error instanceof Error
-                        ? error.message
-                        : "Неизвестная ошибка",
+                error: error instanceof Error ? error.message : "Unknown error",
             },
             { status: 500 }
         );

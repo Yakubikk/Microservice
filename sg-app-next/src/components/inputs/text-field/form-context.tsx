@@ -3,7 +3,7 @@
 import React, { createContext } from "react";
 
 export type FormErrors = {
-    [key: string]: string[] | undefined;
+    [key: string]: string[] | string | undefined;
 };
 
 export type FormState = {

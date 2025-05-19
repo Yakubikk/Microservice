@@ -1,8 +1,7 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle } from "@/components";
+import { Dialog, DialogContent, DialogTitle, ManufacturerModal } from "@/components";
 import React, { useState } from "react";
-import ManufacturerModal from "../manufacturer.modal";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface UpdateButtonProps {

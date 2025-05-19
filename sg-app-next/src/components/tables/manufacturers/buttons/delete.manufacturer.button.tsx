@@ -9,13 +9,19 @@ interface DeleteButtonProps {
     onSuccess: () => void;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ manufacturerId, onSuccess }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({
+    manufacturerId,
+    onSuccess,
+}) => {
     const handleDelete = async (id: string) => {
+        if (!confirm("Вы уверены, что хотите удалить производителя?"))
+            return;
+
         const result = await deleteManufacturer(id);
         if (result) {
-            if (result.errors) {
-                console.error(result.errors.general[0]);
-                toast.error(result.errors.general[0]);
+            if (!result.success) {
+                console.error(result.reason);
+                toast.error(result.reason);
                 return;
             }
             if (result.success) {

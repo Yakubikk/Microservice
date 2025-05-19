@@ -17,7 +17,7 @@ const updateWagonSchema = createWagonSchema.extend({
     id: uuidSchema,
 });
 
-export async function createWagon(prevState: unknown, formData: FormData) {
+export async function createWagon(prevState: unknown, formData: FormData, token?: string) {
     try {
         const result = createWagonSchema.safeParse(Object.fromEntries(formData));
         if (!result.success) {
@@ -35,11 +35,16 @@ export async function createWagon(prevState: unknown, formData: FormData) {
             return { errors: { manufacturerId: ["Производитель не найден"] } };
         }
 
+        const session = await getSession(token);
+        if (!session) {
+            throw new Error("Не авторизован");
+        }
+
         // Создаем вагон
         await prisma.wagon.create({
             data: {
                 name,
-                creatorId: (await getSession())?.userId ?? "",
+                creatorId: session.userId,
                 manufacturerId,
             },
         });

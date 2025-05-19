@@ -87,7 +87,10 @@ export async function getSession(token?: string) {
             userRole: decryptedSession.userRole as Role,
         };
     } catch (error) {
-        console.error("Session decryption failed:", error);
+        console.error(
+            "Session decryption failed:",
+            error instanceof Error ? error.message : "Unknown error"
+        );
         await deleteSession();
         return null;
     }

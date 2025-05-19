@@ -8,7 +8,12 @@ import { uuidSchema } from "@/types";
 
 // Схема для создания производителя
 const createManufacturerSchema = z.object({
-    name: z.string().min(1, { message: "Название обязательно" }).trim(),
+    name: z
+        .string()
+        .min(1, {
+            message: "Название обязательно",
+        })
+        .trim(),
 });
 
 // Схема для обновления производителя
@@ -18,7 +23,8 @@ const updateManufacturerSchema = createManufacturerSchema.extend({
 
 export async function createManufacturer(
     prevState: unknown,
-    formData: FormData
+    formData: FormData,
+    token?: string
 ) {
     try {
         const result = createManufacturerSchema.safeParse(
@@ -30,11 +36,16 @@ export async function createManufacturer(
 
         const { name } = result.data;
 
+        const session = await getSession(token);
+        if (!session) {
+            return { errors: { general: "Не авторизован" } };
+        }
+
         // Создаем производителя
         await prisma.manufacturer.create({
             data: {
                 name,
-                creatorId: (await getSession())?.userId ?? "",
+                creatorId: session.userId,
             },
         });
 
@@ -43,11 +54,10 @@ export async function createManufacturer(
         console.error("Ошибка при создании производителя:", error);
         return {
             errors: {
-                general: [
+                general:
                     error instanceof Error
                         ? error.message
                         : "Не удалось создать производителя",
-                ],
             },
         };
     }
@@ -80,7 +90,7 @@ export async function updateManufacturer(
         });
 
         if (!existingManufacturer) {
-            return { errors: { general: ["Производитель не найден"] } };
+            return { errors: { general: "Производитель не найден" } };
         }
 
         // Обновляем производителя
@@ -97,11 +107,10 @@ export async function updateManufacturer(
         console.error("Ошибка при обновлении производителя:", error);
         return {
             errors: {
-                general: [
+                general:
                     error instanceof Error
                         ? error.message
                         : "Не удалось обновить производителя",
-                ],
             },
         };
     }
@@ -112,7 +121,7 @@ export async function deleteManufacturer(id: string, token?: string) {
         // Проверяем права с учетом владения
         const permission = await manufacturerPermissions.canDelete(id, token);
         if (!permission.allowed) {
-            throw new Error(permission.reason);
+            return { success: false, reason: permission.reason };
         }
 
         // Проверяем существование производителя
@@ -121,7 +130,7 @@ export async function deleteManufacturer(id: string, token?: string) {
         });
 
         if (!existingManufacturer) {
-            return { errors: { general: ["Производитель не найден"] } };
+            return { success: false, reason: "Производитель не найден" };
         }
 
         // Проверяем, нет ли связанных вагонов
@@ -131,28 +140,23 @@ export async function deleteManufacturer(id: string, token?: string) {
 
         if (wagonsCount > 0) {
             return {
-                errors: {
-                    general: [
-                        "Нельзя удалить производителя с привязанными вагонами",
-                    ],
-                },
+                success: false,
+                reason: "Нельзя удалить производителя с привязанными вагонами",
             };
         }
 
         // Удаляем производителя
         await prisma.manufacturer.delete({ where: { id } });
 
-        return { success: true };
+        return { success: true, reason: "Производитель удален" };
     } catch (error) {
         console.error("Ошибка при удалении производителя:", error);
         return {
-            errors: {
-                general: [
-                    error instanceof Error
-                        ? error.message
-                        : "Не удалось удалить производителя",
-                ],
-            },
+            success: false,
+            reason:
+                error instanceof Error
+                    ? error.message
+                    : "Не удалось удалить производителя",
         };
     }
 }
@@ -175,11 +179,10 @@ export async function getManufacturers(token?: string) {
         console.error("Ошибка при получении списка производителей:", error);
         return {
             errors: {
-                general: [
+                general:
                     error instanceof Error
                         ? error.message
                         : "Не удалось получить список производителей",
-                ],
             },
         };
     }
@@ -203,11 +206,10 @@ export async function getManufacturerById(id: string, token?: string) {
         console.error("Ошибка при получении производителя:", error);
         return {
             errors: {
-                general: [
+                general:
                     error instanceof Error
                         ? error.message
                         : "Не удалось получить производителя",
-                ],
             },
         };
     }
@@ -234,11 +236,10 @@ export async function getManufacturerByName(name: string, token?: string) {
         console.error("Ошибка при получении производителя:", error);
         return {
             errors: {
-                general: [
+                general:
                     error instanceof Error
                         ? error.message
                         : "Не удалось получить производителя",
-                ],
             },
         };
     }
@@ -268,11 +269,10 @@ export async function getManufacturerByCreatorId(
         console.error("Ошибка при получении производителя:", error);
         return {
             errors: {
-                general: [
+                general:
                     error instanceof Error
                         ? error.message
                         : "Не удалось получить производителя",
-                ],
             },
         };
     }
@@ -303,11 +303,10 @@ export async function getManufacturerByCreatorIdAndName(
         console.error("Ошибка при получении производителя:", error);
         return {
             errors: {
-                general: [
+                general:
                     error instanceof Error
                         ? error.message
                         : "Не удалось получить производителя",
-                ],
             },
         };
     }

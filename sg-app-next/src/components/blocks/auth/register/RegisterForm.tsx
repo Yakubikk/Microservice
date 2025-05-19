@@ -1,16 +1,31 @@
 "use client";
 
-import React, { useActionState } from "react";
+import React, { useActionState, useEffect } from "react";
 import { register } from "@/lib/actions/auth.actions";
-import {FormProvider, SubmitButton, TextField} from "@/components";
+import { FormProvider, SubmitButton, TextField } from "@/components";
+import toast from "react-hot-toast";
 
 const RegisterForm: React.FC = () => {
     const [state, registerAction] = useActionState(register, null);
 
+    useEffect(() => {
+        if (state?.errors) {
+            const errorMessage =
+                state.errors.email?.[0] || state.errors.password?.[0];
+            if (errorMessage) {
+                toast.error(errorMessage, {
+                    style: {
+                        minWidth: 'max-content',
+                    },
+                });
+            }
+        }
+    }, [state?.errors]);
+
     return (
         <FormProvider state={state}>
             <form
-                autoComplete='off'
+                autoComplete="off"
                 action={registerAction}
                 className="flex max-w-[600px] flex-col gap-4"
             >
@@ -35,13 +50,7 @@ const RegisterForm: React.FC = () => {
                     required
                 />
 
-                {state?.errors && (
-                    <p className="text-red-500 text-sm">
-                        {state?.errors.email?.[0] || state?.errors.password?.[0] || state?.errors.confirmPassword?.[0]}
-                    </p>
-                )}
-
-                <SubmitButton pendingText='Регистрация...'>
+                <SubmitButton pendingText="Регистрация...">
                     Зарегистрироваться
                 </SubmitButton>
             </form>

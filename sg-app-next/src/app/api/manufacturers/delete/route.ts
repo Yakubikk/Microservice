@@ -11,26 +11,26 @@ export async function DELETE(request: Request) {
 
         if (!id) {
             return NextResponse.json(
-                { success: false, error: "ID is required" },
+                { success: false, reason: "ID is required" },
                 { status: 400 }
             );
         }
 
         const result = await deleteManufacturer(id, token);
 
-        if (result?.errors) {
-            return NextResponse.json(
-                { success: false, errors: result.errors },
-                { status: 400 }
-            );
+        if (!result.success) {
+            if (result.reason === "Не авторизован") {
+                return NextResponse.json(result, { status: 401 });
+            }
+            return NextResponse.json(result, { status: 400 });
         }
 
-        return NextResponse.json({ success: true }, { status: 200 });
+        return NextResponse.json(result, { status: 200 });
     } catch (error) {
         return NextResponse.json(
             {
                 success: false,
-                error:
+                reason:
                     error instanceof Error
                         ? error.message
                         : "Неизвестная ошибка",

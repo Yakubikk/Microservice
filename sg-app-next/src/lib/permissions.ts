@@ -105,7 +105,7 @@ export async function checkPermission<T extends Resource>(
                     action
                 )} для ${resource}, требуются: ${allowedRoles.join(
                     ", "
-                )} или владелец`,
+                )} или владелец записи`,
             };
         }
 

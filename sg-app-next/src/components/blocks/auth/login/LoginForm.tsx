@@ -1,16 +1,31 @@
 "use client";
 
-import React, { useActionState } from "react";
-import {login} from "@/lib/actions/auth.actions";
-import {FormProvider, SubmitButton, TextField} from "@/components";
+import React, { useActionState, useEffect } from "react";
+import { login } from "@/lib/actions/auth.actions";
+import { FormProvider, SubmitButton, TextField } from "@/components";
+import toast from "react-hot-toast";
 
 const LoginForm: React.FC = () => {
     const [state, loginAction] = useActionState(login, null);
 
+    useEffect(() => {
+        if (state?.errors) {
+            const errorMessage =
+                state.errors.email?.[0] || state.errors.password?.[0];
+            if (errorMessage) {
+                toast.error(errorMessage, {
+                    style: {
+                        minWidth: 'max-content',
+                    },
+                });
+            }
+        }
+    }, [state?.errors]);
+
     return (
         <FormProvider state={state}>
             <form
-                autoComplete='on'
+                autoComplete="on"
                 action={loginAction}
                 className="flex max-w-[600px] flex-col gap-2"
             >
@@ -29,27 +44,15 @@ const LoginForm: React.FC = () => {
                 />
 
                 <div className="flex gap-2">
-                    <input
-                        id="rememberMe"
-                        name="rememberMe"
-                        type="checkbox"
-                    />
+                    <input id="rememberMe" name="rememberMe" type="checkbox" />
                     <label htmlFor="rememberMe">Запомнить меня</label>
                 </div>
 
-                {state?.errors && (
-                    <p className="text-red-500 text-sm">
-                        {state?.errors.email?.[0] || state?.errors.password?.[0]}
-                    </p>
-                )}
-
-                <SubmitButton pendingText='Вход...'>
-                    Войти
-                </SubmitButton>
+                <SubmitButton pendingText="Вход...">Войти</SubmitButton>
             </form>
         </FormProvider>
     );
-}
+};
 
 export { LoginForm };
 export default LoginForm;
