@@ -1,25 +1,34 @@
 "use client";
 
 import { showToast, TextField } from "@/components";
-import { register } from "@/services/auth";
+import { login as postLogin } from "@/services/auth";
+import { useUserStore } from "@/store/user/user.store";
 import React from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 
 type FormValues = {
-    userName: string;
     email: string;
     password: string;
+    rememberMe?: boolean;
 };
 
-export const RegisterForm = () => {
+export const LoginForm = () => {
     const form = useForm<FormValues>();
+    const { login } = useUserStore();
 
     const { handleSubmit } = form;
 
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
         try {
-            const response = await register(data);
-            showToast.success(response);
+            const response = await postLogin(data);
+
+            if (!response) {
+                throw new Error("Login failed");
+            }
+
+            login(response);
+
+            showToast.success("Login successful");
         } catch (error) {
             console.error("Registration error:", error);
             showToast.error("Registration failed. Please try again.");

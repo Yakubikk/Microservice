@@ -16,7 +16,7 @@ type TextFieldProps = {
     validation?: RegisterOptions;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const TextField: React.FC<TextFieldProps> = ({
+const TextField: React.FC<TextFieldProps> = ({
     name,
     label,
     type = "text",
@@ -62,12 +62,13 @@ export const TextField: React.FC<TextFieldProps> = ({
                 <label
                     htmlFor={name}
                     className={clsx(
-                        "block text-sm font-medium text-gray-600 transition-colors duration-200",
+                        "block text-sm text-gray-600 transition-colors duration-200",
                         (hasValue || isFocused) &&
                             clsx(
-                                "text-indigo-600",
                                 error && "text-red-500",
-                                hasValue && !isFocused && "text-gray-600"
+                                hasValue && !isFocused
+                                    ? "text-gray-600"
+                                    : "text-indigo-600"
                             ),
                         labelClassName
                     )}
@@ -80,12 +81,14 @@ export const TextField: React.FC<TextFieldProps> = ({
                 <label
                     htmlFor={name}
                     className={clsx(
-                        "absolute font-medium text-gray-500 transition-all duration-200 pointer-events-none",
+                        "absolute text-gray-500 transition-all duration-200 pointer-events-none",
                         hasValue || isFocused
                             ? clsx(
-                                  "-top-5 text-indigo-600 left-0 text-sm",
+                                  "-top-5 left-0 text-sm",
                                   error && "text-red-500",
-                                  hasValue && !isFocused && "text-gray-600"
+                                  hasValue && !isFocused
+                                      ? "text-gray-600"
+                                      : "text-indigo-600"
                               )
                             : "top-2 left-1",
                         labelClassName
@@ -111,7 +114,12 @@ export const TextField: React.FC<TextFieldProps> = ({
                     {...registerProps}
                     {...rest}
                 />
-                <div className="absolute bottom-0 h-0.5 bg-black opacity-20 w-full" />
+                <div
+                    className={clsx(
+                        "absolute bottom-0 h-0.5 opacity-25 w-full",
+                        error ? "bg-red-600" : "bg-black",
+                    )}
+                />
                 <div
                     className={clsx(
                         "absolute bottom-0 h-0.5 transition-all duration-300",
@@ -137,4 +145,5 @@ export const TextField: React.FC<TextFieldProps> = ({
     );
 };
 
+export { TextField };
 export default TextField;
