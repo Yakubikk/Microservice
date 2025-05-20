@@ -1,5 +1,8 @@
 using AspireApp.ApiService.Data;
 using AspireApp.ApiService.Models;
+using AspireApp.ApiService.Services;
+using AspireApp.ApiService.Middleware;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -13,6 +16,11 @@ builder.Services.AddIdentityApiEndpoints<User>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+// Регистрируем сервис для назначения роли User
+builder.Services.AddScoped<UserRegistrationService>();
+
+builder.Services.AddControllers();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("ReactClient", policy =>
@@ -24,20 +32,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-var authorizationBuilder = builder.Services.AddAuthorizationBuilder();
+builder.Services.AddAuthorizationBuilder();
 
-authorizationBuilder.AddPolicy("CreatorOrModerator", policy =>
-    policy.RequireAssertion(context =>
-        context.User.IsInRole("Moderator") ||
-        context.User.IsInRole("Admin") ||
-        context.User.HasClaim("IsCreator", "true")));
-
-authorizationBuilder.AddPolicy("CreatorOrAdmin", policy =>
-    policy.RequireAssertion(context =>
-        context.User.IsInRole("Admin") ||
-        context.User.HasClaim("IsCreator", "true")));
-
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -69,7 +65,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// Configure file upload limits
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 5 * 1024 * 1024; // 5MB
+});
+
 var app = builder.Build();
+
+app.UseStaticFiles();
+
+// Создание папки для загрузок
+var uploadsPath = Path.Combine(app.Environment.WebRootPath, "uploads/avatars");
+Directory.CreateDirectory(uploadsPath);
 
 if (app.Environment.IsDevelopment())
 {
@@ -77,13 +85,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
+//app.UseAuthentication();
 app.UseAuthorization();
 
+// Настраиваем эндпоинты Identity и расширяем их обработчиками событий
 app.MapIdentityApi<User>();
+
+// Используем middleware для назначения роли User при регистрации
+app.UseUserRegistrationMiddleware();
+
 app.MapControllers();
 
 app.UseCors("ReactClient");
+
+// Enable static files
+app.UseStaticFiles();
 
 using (var scope = app.Services.CreateScope())
 {

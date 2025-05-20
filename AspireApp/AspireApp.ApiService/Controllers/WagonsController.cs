@@ -18,18 +18,14 @@ public class WagonsController(AppDbContext context, UserManager<User> userManage
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Wagon>>> GetWagons()
     {
-        return await context.Wagons
-            .Include(w => w.Manufacturer)
-            .ToListAsync();
+        return await context.Wagons.ToListAsync();
     }
 
     // GET: api/Wagons/5
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Wagon>> GetWagon(Guid id)
     {
-        var wagon = await context.Wagons
-            .Include(w => w.Manufacturer)
-            .FirstOrDefaultAsync(w => w.Id == id);
+        var wagon = await context.Wagons.FirstOrDefaultAsync(w => w.Id == id);
 
         if (wagon == null)
         {
@@ -104,6 +100,7 @@ public class WagonsController(AppDbContext context, UserManager<User> userManage
             {
                 return NotFound();
             }
+
             throw;
         }
 

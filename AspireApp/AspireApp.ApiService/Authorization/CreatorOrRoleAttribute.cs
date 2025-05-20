@@ -65,7 +65,7 @@ public class CreatorOrRoleAttribute<TEntity>(params string[]? roles) : Authorize
         // Формирование сообщения об ошибке
         var actionName = GetActionName(context);
         var entityName = typeof(TEntity).Name;
-        string requiredRoles = "права создателя";
+        var requiredRoles = "права создателя";
         if (roles is not null && roles.Length > 0)
             requiredRoles += " или роли: " + string.Join(", ", roles);
 

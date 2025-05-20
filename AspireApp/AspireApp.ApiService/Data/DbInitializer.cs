@@ -29,8 +29,7 @@ public static class DbInitializer
             var admin = new User
             {
                 UserName = "admin",
-                Email = "admin@wagon.com",
-                Roles = [Role.Admin]
+                Email = "admin@wagon.com"
             };
 
             var result = await userManager.CreateAsync(admin, "Admin123!");

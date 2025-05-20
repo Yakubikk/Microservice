@@ -59,7 +59,7 @@ public class ManufacturersController(AppDbContext context, UserManager<User> use
 
     // PUT: api/Manufacturers/5
     [HttpPut("{id:guid}")]
-    [CreatorOrRole<Manufacturer>("Admin")]
+    [CreatorOrRole<Manufacturer>("Admin", "Moderator")]
     public async Task<IActionResult> PutManufacturer(Guid id, Manufacturer manufacturer)
     {
         if (id != manufacturer.Id)

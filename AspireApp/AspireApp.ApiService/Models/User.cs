@@ -9,8 +9,11 @@ public enum Role
     Admin
 }
 
-public class User : IdentityUser
+public class User : IdentityUser, IHasCreator
 {
-    public Role[] Roles { get; set; } = [];
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public string CreatorId { get; set; } = string.Empty;
+    
+    public string? AvatarUrl { get; set; }
 }

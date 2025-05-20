@@ -9,6 +9,6 @@ public class Wagon : IHasCreator
 
     public string CreatorId { get; set; } = string.Empty;
 
-    public Guid ManufacturerId { get; set; }
-    public Manufacturer? Manufacturer { get; set; }
+    public Guid ManufacturerId { get; init; }
+    public Manufacturer Manufacturer { get; init; } = null!;
 }
