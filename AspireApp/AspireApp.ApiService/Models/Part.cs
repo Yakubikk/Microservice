@@ -13,12 +13,15 @@ public enum PartStatus
 {
     Active,
     Decommissioned,
+    Repairing,
+    Reserved,
+    Inspection,
     Extended
 }
 
-public class Part
+public class Part : IHasCreator
 {
-    public Guid PartId { get; set; } = Guid.NewGuid();
+    public Guid Id { get; set; } = Guid.NewGuid();
     
     public PartType PartType { get; set; }
     
@@ -33,6 +36,8 @@ public class Part
     public string? Notes { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    
     // Навигационные свойства для специализированных деталей
     public WheelPair? WheelPair { get; set; }
     public SideFrame? SideFrame { get; set; }
@@ -42,4 +47,5 @@ public class Part
     
     public ICollection<PartInstallation> PartInstallations { get; set; } = new List<PartInstallation>();
     public ICollection<Repair> Repairs { get; set; } = new List<Repair>();
+    public string CreatorId { get; set; }
 }

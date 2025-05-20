@@ -34,7 +34,7 @@ public class UserResponse
     public string? PhoneNumber { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
-    public string? AvatarUrl { get; set; }
+    public string? AvatarFullUrl { get; set; }
     public IEnumerable<string> Roles { get; set; } = [];
 }
 
@@ -43,3 +43,4 @@ public class AvatarUploadRequest
     public IFormFile? File { get; set; }
     public string? Url { get; set; }
 }
+

@@ -25,9 +25,6 @@ public class ManufacturerImportDto
 
 public class RegistrarImportDto
 {
-    [Name("Id")]
-    public Guid Id { get; set; }
-    
     [Name("Name")]
     public string Name { get; set; } = string.Empty;
 }

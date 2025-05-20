@@ -11,7 +11,7 @@ namespace AspireApp.ApiService.Controllers;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class UserController(UserManager<User> userManager, IWebHostEnvironment environment)
+public class UserController(UserManager<User> userManager, IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
     : BaseController(userManager)
 {
     private readonly UserManager<User> _userManager = userManager;
@@ -249,9 +249,27 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
             PhoneNumber = user.PhoneNumber,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt,
-            AvatarUrl = user.AvatarUrl,
+            AvatarFullUrl = GetAvatarFullUrl(user.AvatarUrl),
             Roles = await _userManager.GetRolesAsync(user)
         };
+    }
+
+    private string? GetAvatarFullUrl(string? avatarUrl)
+    {
+        if (string.IsNullOrEmpty(avatarUrl))
+            return null;
+
+        // Если URL уже является полным (начинается с http:// или https://), возвращаем его как есть
+        if (avatarUrl.StartsWith("http://") || avatarUrl.StartsWith("https://"))
+            return avatarUrl;
+
+        // Если это локальная ссылка, создаём полную URL
+        var request = httpContextAccessor.HttpContext?.Request;
+        if (request == null)
+            return avatarUrl;
+
+        var baseUrl = $"{request.Scheme}://{request.Host}";
+        return $"{baseUrl}{avatarUrl}";
     }
 
     private async Task<string> SaveAvatarFile(IFormFile file, string userId)
@@ -305,3 +323,4 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
 
     #endregion
 }
+

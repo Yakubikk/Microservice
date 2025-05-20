@@ -28,14 +28,27 @@ public static class DbInitializer
         {
             var admin = new User
             {
-                UserName = "admin",
-                Email = "admin@wagon.com"
+                UserName = "admin@wagon.com",
+                Email = "admin@wagon.com",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                CreatorId = "system"
             };
 
             var result = await userManager.CreateAsync(admin, "Admin123!");
             if (result.Succeeded)
             {
                 await userManager.AddToRolesAsync(admin, ["Admin", "User"]);
+                
+                // Обновим CreatorId на ID самого пользователя
+                admin.CreatorId = admin.Id;
+                await userManager.UpdateAsync(admin);
+            }
+            else
+            {
+                // Выводим ошибки создания пользователя для отладки
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                Console.WriteLine($"Ошибка при создании администратора: {errors}");
             }
         }
     }
