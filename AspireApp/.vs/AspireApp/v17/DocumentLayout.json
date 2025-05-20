@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "E:\\Git-repo\\Microservice\\AspireApp\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|e:\\git-repo\\microservice\\aspireapp\\aspireapp.apiservice\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|solutionrelative:aspireapp.apiservice\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|e:\\git-repo\\microservice\\aspireapp\\aspireapp.apiservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|solutionrelative:aspireapp.apiservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|e:\\git-repo\\microservice\\aspireapp\\aspireapp.apiservice\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|solutionrelative:aspireapp.apiservice\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,12 +43,38 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "AspireApp.ApiService\\Properties\\launchSettings.json",
+              "ToolTip": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Properties\\launchSettings.json",
+              "RelativeToolTip": "AspireApp.ApiService\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-20T23:38:14.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "AspireApp.ApiService\\Controllers\\UserController.cs",
+              "ToolTip": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Controllers\\UserController.cs",
+              "RelativeToolTip": "AspireApp.ApiService\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAN8AAAAAAAAAAAAawAIBAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T23:12:19.38Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Program.cs",
               "RelativeDocumentMoniker": "AspireApp.ApiService\\Program.cs",
               "ToolTip": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Program.cs",
               "RelativeToolTip": "AspireApp.ApiService\\Program.cs",
-              "ViewState": "AgIAADYAAAAAAAAAAAAkwFEAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAowHsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-20T21:58:01.465Z",
               "EditorCaption": ""

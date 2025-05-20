@@ -75,7 +75,7 @@ var app = builder.Build();
 
 if (app.Environment.WebRootPath == null)
 {
-    app.Environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+    app.Environment.WebRootPath = "wwwroot";
 }
 
 // Ensure the wwwroot directory exists
