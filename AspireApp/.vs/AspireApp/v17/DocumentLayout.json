@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\Git-repo\\Microservice\\AspireApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|e:\\git-repo\\microservice\\aspireapp\\aspireapp.apiservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77A12A99-DF7D-400E-902C-0DAA0EB28B1D}|AspireApp.ApiService\\AspireApp.ApiService.csproj|solutionrelative:aspireapp.apiservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Program.cs",
+              "RelativeDocumentMoniker": "AspireApp.ApiService\\Program.cs",
+              "ToolTip": "E:\\Git-repo\\Microservice\\AspireApp\\AspireApp.ApiService\\Program.cs",
+              "RelativeToolTip": "AspireApp.ApiService\\Program.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAkwFEAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-20T21:58:01.465Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -73,17 +73,22 @@ builder.Services.Configure<FormOptions>(options =>
 
 var app = builder.Build();
 
+if (app.Environment.WebRootPath == null)
+{
+    app.Environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+}
+
+// Ensure the wwwroot directory exists
+Directory.CreateDirectory(app.Environment.WebRootPath);
+
 app.UseStaticFiles();
 
 // Создание папки для загрузок
 var uploadsPath = Path.Combine(app.Environment.WebRootPath, "uploads/avatars");
 Directory.CreateDirectory(uploadsPath);
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -97,9 +102,6 @@ app.UseUserRegistrationMiddleware();
 app.MapControllers();
 
 app.UseCors("ReactClient");
-
-// Включаем статические файлы
-app.UseStaticFiles();
 
 using (var scope = app.Services.CreateScope())
 {
