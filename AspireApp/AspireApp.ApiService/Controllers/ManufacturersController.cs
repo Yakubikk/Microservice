@@ -1,5 +1,6 @@
 using AspireApp.ApiService.Authorization;
 using AspireApp.ApiService.Data;
+using AspireApp.ApiService.DTO;
 using AspireApp.ApiService.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -17,28 +18,53 @@ public class ManufacturersController(AppDbContext context, UserManager<User> use
 
     // GET: api/Manufacturers
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Manufacturer>>> GetManufacturers()
+    public async Task<ActionResult<IEnumerable<ManufacturerResponse>>> GetManufacturers()
     {
-        return await context.Manufacturers.ToListAsync();
+        var manufacturers = await context.Manufacturers.ToListAsync();
+        return manufacturers.Select(m => new ManufacturerResponse
+        {
+            Id = m.Id,
+            Name = m.Name,
+            Country = m.GetCountryInfo(),
+            CreatedAt = m.CreatedAt,
+            UpdatedAt = m.UpdatedAt,
+            CreatorId = m.CreatorId
+        }).ToList();
     }
 
     // GET: api/Manufacturers/5
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<Manufacturer>> GetManufacturer(Guid id)
+    public async Task<ActionResult<ManufacturerDetailResponse>> GetManufacturer(Guid id)
     {
-        var manufacturer = await context.Manufacturers.FindAsync(id);
+        var manufacturer = await context.Manufacturers
+            .Include(m => m.RailwayCisterns)
+            .FirstOrDefaultAsync(m => m.Id == id);
 
         if (manufacturer == null)
         {
             return NotFound();
         }
 
-        return manufacturer;
+        return new ManufacturerDetailResponse
+        {
+            Id = manufacturer.Id,
+            Name = manufacturer.Name,
+            Country = manufacturer.GetCountryInfo(),
+            CreatedAt = manufacturer.CreatedAt,
+            UpdatedAt = manufacturer.UpdatedAt,
+            CreatorId = manufacturer.CreatorId,
+            Wagons = manufacturer.RailwayCisterns
+                .Select(w => new RailwayCisternSummaryResponse
+                {
+                    Id = w.Id,
+                    Number = w.Number
+                }).ToList()
+        };
     }
 
     // POST: api/Manufacturers
     [HttpPost]
-    public async Task<ActionResult<Manufacturer>> PostManufacturer(Manufacturer manufacturer)
+    public async Task<ActionResult<ManufacturerResponse>> PostManufacturer(ManufacturerRequest request)
     {
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null)
@@ -46,38 +72,46 @@ public class ManufacturersController(AppDbContext context, UserManager<User> use
             return Unauthorized();
         }
 
-        manufacturer.Id = Guid.NewGuid();
-        manufacturer.CreatedAt = DateTime.UtcNow;
-        manufacturer.UpdatedAt = DateTime.UtcNow;
-        manufacturer.CreatorId = currentUser.Id;
+        var manufacturer = new Manufacturer
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            Country = request.Country,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+            CreatorId = currentUser.Id
+        };
 
         context.Manufacturers.Add(manufacturer);
         await context.SaveChangesAsync();
 
-        return CreatedAtAction("GetManufacturer", new { id = manufacturer.Id }, manufacturer);
+        var response = new ManufacturerResponse
+        {
+            Id = manufacturer.Id,
+            Name = manufacturer.Name,
+            Country = manufacturer.GetCountryInfo(),
+            CreatedAt = manufacturer.CreatedAt,
+            UpdatedAt = manufacturer.UpdatedAt,
+            CreatorId = manufacturer.CreatorId
+        };
+
+        return CreatedAtAction(nameof(GetManufacturer), new { id = manufacturer.Id }, response);
     }
 
     // PUT: api/Manufacturers/5
     [HttpPut("{id:guid}")]
     [CreatorOrRole<Manufacturer>("Admin", "Moderator")]
-    public async Task<IActionResult> PutManufacturer(Guid id, Manufacturer manufacturer)
+    public async Task<IActionResult> PutManufacturer(Guid id, ManufacturerRequest request)
     {
-        if (id != manufacturer.Id)
-        {
-            return BadRequest();
-        }
-
         var existingManufacturer = await context.Manufacturers.FindAsync(id);
         if (existingManufacturer == null)
         {
             return NotFound();
         }
 
-        manufacturer.UpdatedAt = DateTime.UtcNow;
-        manufacturer.CreatedAt = existingManufacturer.CreatedAt;
-        manufacturer.CreatorId = existingManufacturer.CreatorId;
-
-        context.Entry(existingManufacturer).CurrentValues.SetValues(manufacturer);
+        existingManufacturer.Name = request.Name;
+        existingManufacturer.Country = request.Country;
+        existingManufacturer.UpdatedAt = DateTime.UtcNow;
 
         try
         {
@@ -89,6 +123,7 @@ public class ManufacturersController(AppDbContext context, UserManager<User> use
             {
                 return NotFound();
             }
+
             throw;
         }
 

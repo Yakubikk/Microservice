@@ -67,16 +67,24 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
     public async Task<IActionResult> GetCurrentUser()
     {
         var currentUser = await _userManager.GetUserAsync(User);
+        return Ok(await MapToUserResponse(currentUser!));
+    }
+    
+    [HttpGet("me/roles")]
+    public async Task<IActionResult> GetCurrentUserRoles()
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return Unauthorized();
 
-        return Ok(await MapToUserResponse(currentUser));
+        var roles = await _userManager.GetRolesAsync(currentUser);
+        return Ok(roles);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id}")]
     [CreatorOrRole<User>("Admin")]
-    public async Task<IActionResult> GetUser(Guid id)
+    public async Task<IActionResult> GetUser(string id)
     {
-        var user = await _userManager.FindByIdAsync(id.ToString());
+        var user = await _userManager.FindByIdAsync(id);
         if (user == null) return NotFound();
 
         return Ok(await MapToUserResponse(user));
@@ -158,16 +166,16 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
     #region Avatar Operations
 
     [HttpPut("me/avatar")]
-    [RequestSizeLimit(5 * 1024 * 1024)] // 5MB limit
+    [RequestSizeLimit(5 * 1024 * 1024)] // ограничение 5 МБ
     public async Task<IActionResult> UpdateCurrentUserAvatar([FromForm] AvatarUploadRequest request)
     {
         if (request.File == null && string.IsNullOrEmpty(request.Url))
-            return BadRequest("Either file or URL must be provided");
+            return BadRequest("Необходимо указать либо файл, либо URL-адрес.");
 
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser == null) return Unauthorized();
 
-        // Delete old avatar file if it exists and is local
+        // Удалить старый файл аватара, если он существует и находится локально
         await DeleteLocalAvatarIfExists(currentUser.AvatarUrl);
 
         if (request.File != null)
@@ -187,7 +195,7 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
 
     [HttpPut("{id:guid}/avatar")]
     [Authorize(Roles = "Admin,Moderator")]
-    [RequestSizeLimit(5 * 1024 * 1024)]
+    [RequestSizeLimit(5 * 1024 * 1024)] // ограничение 5 МБ
     public async Task<IActionResult> UpdateUserAvatar(Guid id, [FromForm] AvatarUploadRequest request)
     {
         if (request.File == null && string.IsNullOrEmpty(request.Url))
@@ -196,7 +204,7 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
         var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null) return NotFound();
 
-        // Delete old avatar file if it exists and is local
+        // Удалить старый файл аватара, если он существует и находится локально
         await DeleteLocalAvatarIfExists(user.AvatarUrl);
 
         if (request.File != null)
@@ -248,22 +256,22 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
 
     private async Task<string> SaveAvatarFile(IFormFile file, string userId)
     {
-        // Validate file type
+        // Проверить тип файла
         var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
         var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
 
         if (!allowedExtensions.Contains(extension))
-            throw new BadHttpRequestException("Invalid file type. Only images are allowed.");
+            throw new BadHttpRequestException("Недопустимый тип файла. Разрешены только изображения.");
 
-        // Create directory if not exists
+        // Создать каталог, если он не существует
         var uploadsPath = Path.Combine(environment.WebRootPath, AvatarsFolder);
         Directory.CreateDirectory(uploadsPath);
 
-        // Generate unique filename
+        // Сгенерировать уникальное имя файла
         var fileName = $"avatar_{userId}_{DateTime.UtcNow:yyyyMMddHHmmssfff}{extension}";
         var filePath = Path.Combine(uploadsPath, fileName);
 
-        // Save file
+        // Сохранить файл
         await using var stream = new FileStream(filePath, FileMode.Create);
         await file.CopyToAsync(stream);
 

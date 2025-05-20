@@ -48,7 +48,7 @@ public class UserRegistrationMiddleware(RequestDelegate next, ILogger<UserRegist
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error occurred while processing user registration");
+                logger.LogError(ex, "Произошла ошибка при обработке регистрации пользователя");
             }
             
             return;
@@ -61,8 +61,8 @@ public class UserRegistrationMiddleware(RequestDelegate next, ILogger<UserRegist
 // Класс расширений для удобной регистрации middleware
 public static class UserRegistrationMiddlewareExtensions
 {
-    public static IApplicationBuilder UseUserRegistrationMiddleware(this IApplicationBuilder builder)
+    public static void UseUserRegistrationMiddleware(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<UserRegistrationMiddleware>();
+        builder.UseMiddleware<UserRegistrationMiddleware>();
     }
 }

@@ -10,10 +10,10 @@ public static class DbInitializer
         UserManager<User> userManager,
         RoleManager<IdentityRole> roleManager)
     {
-        // Create database if it doesn't exist
+        // Создать базу данных, если ее нет
         await context.Database.EnsureCreatedAsync();
 
-        // Create roles
+        // Создать роли
         var roleNames = Enum.GetNames<Role>();
         foreach (var roleName in roleNames)
         {
@@ -23,7 +23,7 @@ public static class DbInitializer
             }
         }
 
-        // Create admin user
+        // Создать пользователя-администратора
         if (await userManager.FindByEmailAsync("admin@wagon.com") == null)
         {
             var admin = new User
@@ -35,7 +35,7 @@ public static class DbInitializer
             var result = await userManager.CreateAsync(admin, "Admin123!");
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(admin, "Admin");
+                await userManager.AddToRolesAsync(admin, ["Admin", "User"]);
             }
         }
     }

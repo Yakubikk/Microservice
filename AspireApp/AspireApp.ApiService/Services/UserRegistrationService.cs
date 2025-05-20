@@ -22,16 +22,16 @@ public class UserRegistrationService(
 
             if (!result.Succeeded)
             {
-                logger.LogWarning("Failed to add User role to user {UserId}: {Errors}",
+                logger.LogWarning("Не удалось добавить роль пользователю {UserId}: {Errors}",
                     user.Id, string.Join(", ", result.Errors.Select(e => e.Description)));
                 return;
             }
 
-            logger.LogInformation("User {UserId} assigned default role User", user.Id);
+            logger.LogInformation("Пользователю {UserId} назначена роль по умолчанию User", user.Id);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error occurred while assigning default role to user {UserId}", user.Id);
+            logger.LogError(ex, "Произошла ошибка при назначении роли по умолчанию пользователю {UserId}", user.Id);
         }
     }
 }

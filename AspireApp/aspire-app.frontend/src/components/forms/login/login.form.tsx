@@ -9,10 +9,10 @@ import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 type FormValues = {
     email: string;
     password: string;
-    rememberMe?: boolean;
+    rememberMe: boolean;
 };
 
-export const LoginForm = () => {
+const LoginForm: React.FC = () => {
     const form = useForm<FormValues>();
     const { login } = useUserStore();
 
@@ -30,8 +30,8 @@ export const LoginForm = () => {
 
             showToast.success("Login successful");
         } catch (error) {
-            console.error("Registration error:", error);
-            showToast.error("Registration failed. Please try again.");
+            console.error("Login error:", error);
+            showToast.error("Login failed. Please try again.");
         }
     };
 
@@ -41,18 +41,6 @@ export const LoginForm = () => {
                 onSubmit={handleSubmit(onSubmit)}
                 className="max-w-md mx-auto p-4 -mt-6"
             >
-                <TextField
-                    name="userName"
-                    placeholder="Username"
-                    validation={{
-                        required: "Username is required",
-                        minLength: {
-                            value: 3,
-                            message: "Username must be at least 3 characters",
-                        },
-                    }}
-                />
-
                 <TextField
                     name="email"
                     placeholder="Email"
@@ -79,6 +67,13 @@ export const LoginForm = () => {
                     }}
                 />
 
+                <input
+                    type="checkbox"
+                    className="mt-4"
+                    {...form.register("rememberMe")}
+                    id="rememberMe"
+                />
+
                 <button
                     type="submit"
                     className="w-full mt-4 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
@@ -89,3 +84,6 @@ export const LoginForm = () => {
         </FormProvider>
     );
 };
+
+export { LoginForm };
+export default LoginForm;

@@ -31,8 +31,7 @@ public class CreatorOrRoleAttribute<TEntity>(params string[]? roles) : Authorize
         }
 
         // Извлечение ID из маршрута
-        if (!context.RouteData.Values.TryGetValue("id", out var idObj) ||
-            !Guid.TryParse(idObj?.ToString(), out var id))
+        if (!context.RouteData.Values.TryGetValue("id", out var id))
         {
             SetForbiddenResult(context, "Неверный идентификатор ресурса");
             return;
@@ -70,7 +69,7 @@ public class CreatorOrRoleAttribute<TEntity>(params string[]? roles) : Authorize
             requiredRoles += " или роли: " + string.Join(", ", roles);
 
         var message = $"Доступ запрещен. "
-        + $"Ваши роли: {string.Join(", ", userRoles)} - не могут выполнить {actionName} для {entityName} с ID: {id}. "
+        + $"Ваши роли: {string.Join(", ", userRoles)} - не могут выполнить {actionName} для сущности {entityName}. "
         + $"Требуются: {requiredRoles}.";
 
         SetForbiddenResult(context, message);

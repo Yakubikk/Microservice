@@ -41,7 +41,7 @@ builder.Services.AddSwaggerGen(c =>
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+        Description = "Заголовок авторизации JWT с использованием схемы Bearer. Пример: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
@@ -65,7 +65,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Configure file upload limits
+// Настройка лимита загрузки файлов
 builder.Services.Configure<FormOptions>(options =>
 {
     options.MultipartBodyLengthLimit = 5 * 1024 * 1024; // 5MB
@@ -85,7 +85,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
 
 // Настраиваем эндпоинты Identity и расширяем их обработчиками событий
@@ -98,7 +98,7 @@ app.MapControllers();
 
 app.UseCors("ReactClient");
 
-// Enable static files
+// Включаем статические файлы
 app.UseStaticFiles();
 
 using (var scope = app.Services.CreateScope())
@@ -115,8 +115,9 @@ using (var scope = app.Services.CreateScope())
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while seeding the database.");
+        logger.LogError(ex, "Произошла ошибка при заполнении базы данных.");
     }
 }
 
 app.Run();
+

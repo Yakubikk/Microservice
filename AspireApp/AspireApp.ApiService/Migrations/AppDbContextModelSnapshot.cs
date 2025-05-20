@@ -22,11 +22,87 @@ namespace AspireApp.ApiService.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AspireApp.ApiService.Models.Bolster", b =>
+                {
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly?>("ExtendedUntil")
+                        .HasColumnType("date");
+
+                    b.Property<int?>("ServiceLifeYears")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PartId");
+
+                    b.ToTable("Bolsters");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Coupler", b =>
+                {
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("PartId");
+
+                    b.ToTable("Couplers");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Depot", b =>
+                {
+                    b.Property<Guid>("DepotId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("DepotId");
+
+                    b.ToTable("Depots");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Location", b =>
+                {
+                    b.Property<Guid>("LocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("LocationId");
+
+                    b.ToTable("Locations");
+                });
+
             modelBuilder.Entity("AspireApp.ApiService.Models.Manufacturer", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -45,6 +121,292 @@ namespace AspireApp.ApiService.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Manufacturers");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Part", b =>
+                {
+                    b.Property<Guid>("PartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CurrentLocation")
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("DepotId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("ManufactureYear")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<int>("PartType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SerialNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("StampNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PartId");
+
+                    b.HasIndex("DepotId");
+
+                    b.ToTable("Parts");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.PartInstallation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("FromLocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("InstalledAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("InstalledBy")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("RemovedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("RemovedBy")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ToLocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("WagonId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FromLocationId");
+
+                    b.HasIndex("PartId");
+
+                    b.HasIndex("ToLocationId");
+
+                    b.HasIndex("WagonId");
+
+                    b.ToTable("PartInstallations");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.RailwayCistern", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AxleCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateOnly>("BuildDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("CommissioningDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatorId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal?>("FillingVolume")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("InitialTareWeight")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("Length")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("LoadCapacity")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("ManufacturerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ModelId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid?>("RegistrarId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("RegistrationDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("RegistrationNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SerialNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("TareWeight")
+                        .HasColumnType("numeric");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("Volume")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("ModelId");
+
+                    b.HasIndex("RegistrarId");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("RailwayCisterns");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Registrar", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Registrars");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Repair", b =>
+                {
+                    b.Property<Guid>("RepairId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DepotId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly?>("NextRepairDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("RepairDate")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("RepairTypeId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("RepairId");
+
+                    b.HasIndex("DepotId");
+
+                    b.HasIndex("PartId");
+
+                    b.HasIndex("RepairTypeId");
+
+                    b.ToTable("Repairs");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.RepairType", b =>
+                {
+                    b.Property<Guid>("RepairTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("RepairTypeId");
+
+                    b.ToTable("RepairTypes");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.ShockAbsorber", b =>
+                {
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ManufacturerCode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Model")
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly?>("NextRepairDate")
+                        .HasColumnType("date");
+
+                    b.Property<int?>("ServiceLifeYears")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PartId");
+
+                    b.ToTable("ShockAbsorbers");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.SideFrame", b =>
+                {
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly?>("ExtendedUntil")
+                        .HasColumnType("date");
+
+                    b.Property<int?>("ServiceLifeYears")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PartId");
+
+                    b.ToTable("SideFrames");
                 });
 
             modelBuilder.Entity("AspireApp.ApiService.Models.User", b =>
@@ -124,34 +486,76 @@ namespace AspireApp.ApiService.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AspireApp.ApiService.Models.Wagon", b =>
+            modelBuilder.Entity("AspireApp.ApiService.Models.Vessel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<Guid>("RailwayCisternId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("CreatorId")
-                        .IsRequired()
+                    b.Property<DateOnly?>("VesselBuildDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("VesselSerialNumber")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ManufacturerId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("RailwayCisternId")
+                        .IsUnique();
+
+                    b.ToTable("Vessels");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.WagonModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.HasKey("Id");
+
+                    b.ToTable("WagonModels");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.WagonType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManufacturerId");
+                    b.ToTable("WagonTypes");
+                });
 
-                    b.ToTable("Wagons");
+            modelBuilder.Entity("AspireApp.ApiService.Models.WheelPair", b =>
+                {
+                    b.Property<Guid>("PartId")
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal?>("ThicknessLeft")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("ThicknessRight")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("WheelType")
+                        .HasColumnType("text");
+
+                    b.HasKey("PartId");
+
+                    b.ToTable("WheelPairs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -286,15 +690,166 @@ namespace AspireApp.ApiService.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AspireApp.ApiService.Models.Wagon", b =>
+            modelBuilder.Entity("AspireApp.ApiService.Models.Bolster", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Part", "Part")
+                        .WithOne("Bolster")
+                        .HasForeignKey("AspireApp.ApiService.Models.Bolster", "PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Coupler", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Part", "Part")
+                        .WithOne("Coupler")
+                        .HasForeignKey("AspireApp.ApiService.Models.Coupler", "PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Part", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Depot", "Depot")
+                        .WithMany("Parts")
+                        .HasForeignKey("DepotId");
+
+                    b.Navigation("Depot");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.PartInstallation", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Location", "FromLocation")
+                        .WithMany("FromInstallations")
+                        .HasForeignKey("FromLocationId");
+
+                    b.HasOne("AspireApp.ApiService.Models.Part", "Part")
+                        .WithMany("PartInstallations")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspireApp.ApiService.Models.Location", "ToLocation")
+                        .WithMany("ToInstallations")
+                        .HasForeignKey("ToLocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspireApp.ApiService.Models.RailwayCistern", "Wagon")
+                        .WithMany("PartInstallations")
+                        .HasForeignKey("WagonId");
+
+                    b.Navigation("FromLocation");
+
+                    b.Navigation("Part");
+
+                    b.Navigation("ToLocation");
+
+                    b.Navigation("Wagon");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.RailwayCistern", b =>
                 {
                     b.HasOne("AspireApp.ApiService.Models.Manufacturer", "Manufacturer")
-                        .WithMany("Wagons")
+                        .WithMany("RailwayCisterns")
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AspireApp.ApiService.Models.WagonModel", "Model")
+                        .WithMany("RailwayCisterns")
+                        .HasForeignKey("ModelId");
+
+                    b.HasOne("AspireApp.ApiService.Models.Registrar", "Registrar")
+                        .WithMany("RailwayCisterns")
+                        .HasForeignKey("RegistrarId");
+
+                    b.HasOne("AspireApp.ApiService.Models.WagonType", "Type")
+                        .WithMany("RailwayCisterns")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Manufacturer");
+
+                    b.Navigation("Model");
+
+                    b.Navigation("Registrar");
+
+                    b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Repair", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Depot", "Depot")
+                        .WithMany("Repairs")
+                        .HasForeignKey("DepotId");
+
+                    b.HasOne("AspireApp.ApiService.Models.Part", "Part")
+                        .WithMany("Repairs")
+                        .HasForeignKey("PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AspireApp.ApiService.Models.RepairType", "RepairType")
+                        .WithMany("Repairs")
+                        .HasForeignKey("RepairTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Depot");
+
+                    b.Navigation("Part");
+
+                    b.Navigation("RepairType");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.ShockAbsorber", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Part", "Part")
+                        .WithOne("ShockAbsorber")
+                        .HasForeignKey("AspireApp.ApiService.Models.ShockAbsorber", "PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.SideFrame", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Part", "Part")
+                        .WithOne("SideFrame")
+                        .HasForeignKey("AspireApp.ApiService.Models.SideFrame", "PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Vessel", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.RailwayCistern", "RailwayCistern")
+                        .WithOne("Vessel")
+                        .HasForeignKey("AspireApp.ApiService.Models.Vessel", "RailwayCisternId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RailwayCistern");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.WheelPair", b =>
+                {
+                    b.HasOne("AspireApp.ApiService.Models.Part", "Part")
+                        .WithOne("WheelPair")
+                        .HasForeignKey("AspireApp.ApiService.Models.WheelPair", "PartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Part");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -348,9 +903,67 @@ namespace AspireApp.ApiService.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("AspireApp.ApiService.Models.Depot", b =>
+                {
+                    b.Navigation("Parts");
+
+                    b.Navigation("Repairs");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Location", b =>
+                {
+                    b.Navigation("FromInstallations");
+
+                    b.Navigation("ToInstallations");
+                });
+
             modelBuilder.Entity("AspireApp.ApiService.Models.Manufacturer", b =>
                 {
-                    b.Navigation("Wagons");
+                    b.Navigation("RailwayCisterns");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Part", b =>
+                {
+                    b.Navigation("Bolster");
+
+                    b.Navigation("Coupler");
+
+                    b.Navigation("PartInstallations");
+
+                    b.Navigation("Repairs");
+
+                    b.Navigation("ShockAbsorber");
+
+                    b.Navigation("SideFrame");
+
+                    b.Navigation("WheelPair");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.RailwayCistern", b =>
+                {
+                    b.Navigation("PartInstallations");
+
+                    b.Navigation("Vessel");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.Registrar", b =>
+                {
+                    b.Navigation("RailwayCisterns");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.RepairType", b =>
+                {
+                    b.Navigation("Repairs");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.WagonModel", b =>
+                {
+                    b.Navigation("RailwayCisterns");
+                });
+
+            modelBuilder.Entity("AspireApp.ApiService.Models.WagonType", b =>
+                {
+                    b.Navigation("RailwayCisterns");
                 });
 #pragma warning restore 612, 618
         }

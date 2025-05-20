@@ -1,58 +1,116 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
-import { Role } from '@/types/entities'
+import { NextRequest, NextResponse } from 'next/server';
+import { Role } from '@/types/entities';
+import axios from "axios";
 
-// Конфигурация маршрутов
-const PUBLIC_ROUTES = ['/login', '/register', '/']
-const AUTH_ROUTES = ['/dashboard', '/profile']
-const ROLE_ROUTES: Record<string, Role[]> = {
-  '/admin': [Role.Admin],
-  '/moderator': [Role.Moderator, Role.Admin]
-}
+// Конфигурация маршрутов и ролей
+const routeConfig = {
+    '/': [Role.User, Role.Moderator, Role.Admin],
+    '/moderator': [Role.Admin, Role.Moderator],
+    '/admin': [Role.Admin],
+};
+
+// Маршруты, доступные без авторизации
+const publicRoutes = [
+    '/login',
+    '/register',
+    '/forgot-password',
+    '/reset-password',
+    '/_next',
+    '/api',
+    '/unauthorized',
+    '/favicon.ico'
+];
+
+// Проверяем, является ли маршрут публичным
+const isPublicRoute = (path: string) => {
+    return publicRoutes.some(route => path.startsWith(route));
+};
+
+// Проверяем, нужно ли проверять роли для этого маршрута
+const requiresRoleCheck = (path: string) => {
+    return Object.keys(routeConfig).some(route => path.startsWith(route));
+};
+
+// Проверяем доступ пользователя к маршруту
+const hasRouteAccess = (path: string, userRoles: Role[]): boolean => {
+    for (const [route, allowedRoles] of Object.entries(routeConfig)) {
+        if (path.startsWith(route)) {
+            return userRoles.some(role => allowedRoles.includes(role));
+        }
+    }
+    return true;
+};
+
+// Получаем информацию о пользователе и его ролях с помощью API
+const getUserRolesFromToken = async (token: string): Promise<Role[]> => {
+    try {
+        const response = await axios.get(`${process.env.API_URL}/api/user/me/roles`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (response.status !== 200) {
+            console.error('Token validation failed:', response);
+            return [];
+        }
+
+        const data = response.data;
+
+        console.log(data);
+
+        if (data.roles && Array.isArray(data.roles)) {
+            return data.roles.map((role: string) => {
+                switch (role) {
+                    case 'Admin':
+                        return Role.Admin;
+                    case 'Moderator':
+                        return Role.Moderator;
+                    default:
+                        return Role.User;
+                }
+            });
+        }
+
+        return [];
+    } catch (error) {
+        console.error('Error validating token:', error);
+        return [];
+    }
+};
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl
-  const accessToken = request.cookies.get('accessToken')?.value
+    const path = request.nextUrl.pathname;
+    const accessToken = request.cookies.get('accessToken')?.value;
 
-  // 1. Проверка публичных маршрутов
-  if (PUBLIC_ROUTES.some(route => pathname.startsWith(route))) {
-    return NextResponse.next()
-  }
+    console.log("accessToken", accessToken);
 
-  // 2. Если нет токена - редирект на логин
-  if (!accessToken) {
-    return NextResponse.redirect(new URL('/login', request.url))
-  }
-
-  try {
-    const user = await getUser(accessToken);
-
-    // 3. Проверка ролей для защищенных маршрутов
-    for (const [route, roles] of Object.entries(ROLE_ROUTES)) {
-      if (pathname.startsWith(route) && !roles.some(role => user.roles.includes(role))) {
-        return NextResponse.redirect(new URL('/unauthorized', request.url))
-      }
+    // 1. Сначала проверяем публичные маршруты
+    if (isPublicRoute(path)) {
+        // Если пользователь авторизован и пытается зайти на страницу входа/регистрации
+        if (accessToken && (path.startsWith('/login') || path.startsWith('/register'))) {
+            return NextResponse.redirect(new URL('/', request.url));
+        }
+        return NextResponse.next();
     }
 
-    // 4. Для авторизованных пользователей
-    if (AUTH_ROUTES.some(route => pathname.startsWith(route))) {
-      return NextResponse.next()
+    // 2. Если маршрут не публичный и нет токена - перенаправляем на логин
+    if (!accessToken) {
+        return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    return NextResponse.next()
-  } catch (error) {
-    console.error('Auth error:', error)
-    // Удаляем невалидные куки
-    const response = NextResponse.redirect(new URL('/login', request.url))
-    response.cookies.delete('accessToken')
-    response.cookies.delete('refreshToken')
-    return response
-  }
+    // 3. Проверяем роли только для защищенных маршрутов
+    if (requiresRoleCheck(path)) {
+        const roles = await getUserRolesFromToken(accessToken);
+
+        if (!hasRouteAccess(path, roles)) {
+            return NextResponse.redirect(new URL('/unauthorized', request.url));
+        }
+    }
+
+    return NextResponse.next();
 }
 
-// Конфигурация matcher (для оптимизации)
 export const config = {
-  matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)', // Исключаем статику
-  ],
-}
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+};
