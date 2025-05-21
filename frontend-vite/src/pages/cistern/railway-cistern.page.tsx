@@ -21,7 +21,7 @@ const RailwayCisternPage: React.FC = () => {
         setSelectedCistern(cistern);
         setOpen(true);
     };
-    const handleDelete = async (id: string) => {
+    const handleDelete = async (_id: string) => {
         // Обработка удаления цистерны
     };
     return (
