@@ -28,7 +28,7 @@ public class UserController(UserManager<User> userManager, IWebHostEnvironment e
 
         var user = new User
         {
-            UserName = request.UserName,
+            UserName = request.Email,
             Email = request.Email,
             PhoneNumber = request.PhoneNumber,
             CreatorId = currentUser.Id,
