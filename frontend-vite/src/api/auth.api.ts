@@ -105,8 +105,6 @@ export const refreshAccessToken = async (): Promise<AuthResponse> => {
         return response.data;
     } catch (error) {
         console.error('Token refresh failed:', error);
-        // В случае ошибки очищаем токены
-        logout();
         throw error;
     }
 };

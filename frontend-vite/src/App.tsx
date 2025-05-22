@@ -1,7 +1,7 @@
-import {BrowserRouter as Router, Link, Route, Routes, useLocation} from 'react-router-dom'
-import {RouteProtected} from "@/components";
-import {Toaster} from "react-hot-toast";
-import {AdminPage, ForbiddenPage, GuestPage, Home, LoginPage, RailwayCisternPage, UserPage} from "@/pages";
+import { BrowserRouter as Router, Link, Route, Routes, useLocation } from 'react-router-dom'
+import { LogoutButton, RouteProtected } from "@/components";
+import { Toaster } from "react-hot-toast";
+import { AdminPage, ForbiddenPage, GuestPage, Home, LoginPage, RailwayCisternPage, UserPage } from "@/pages";
 
 const HIDDEN_NAV_PATHS = ['/login', '/forbidden', '/guest'];
 
@@ -27,6 +27,7 @@ const Navigation = () => {
                         <Link to="/admin" className="hover:text-blue-300">Страница администратора</Link>
                     </li>
                 </ul>
+                <LogoutButton />
             </div>
         </nav>
     );
@@ -35,28 +36,28 @@ const Navigation = () => {
 function App() {
     return (
         <Router>
-            <Toaster/>
+            <Toaster />
             <div className="min-h-screen bg-gray-100">
-                <Navigation/>
+                <Navigation />
 
                 <div>
                     <Routes>
-                        <Route path="/login" element={<LoginPage/>}/>
-                        <Route path="/guest" element={<GuestPage/>}/>
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/guest" element={<GuestPage />} />
 
-                        <Route element={<RouteProtected allowedRoles={['User']}/>}>
-                            <Route path="/" element={<Home/>}/>
+                        <Route element={<RouteProtected allowedRoles={['User']} />}>
+                            <Route path="/" element={<Home />} />
 
-                            <Route path="/forbidden" element={<ForbiddenPage/>}/>
+                            <Route path="/forbidden" element={<ForbiddenPage />} />
 
-                            <Route path="/cisterns" element={<RailwayCisternPage/>}/>
+                            <Route path="/cisterns" element={<RailwayCisternPage />} />
 
-                            <Route element={<RouteProtected allowedRoles={['Moderator']}/>}>
-                                <Route path="/moderator" element={<UserPage/>}/>
+                            <Route element={<RouteProtected allowedRoles={['Moderator']} />}>
+                                <Route path="/moderator" element={<UserPage />} />
                             </Route>
 
-                            <Route element={<RouteProtected allowedRoles={['Admin']}/>}>
-                                <Route path="/admin" element={<AdminPage/>}/>
+                            <Route element={<RouteProtected allowedRoles={['Admin']} />}>
+                                <Route path="/admin" element={<AdminPage />} />
                             </Route>
                         </Route>
 
