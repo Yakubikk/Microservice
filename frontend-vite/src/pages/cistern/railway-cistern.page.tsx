@@ -1,8 +1,16 @@
 import { CisternTable } from "@/components";
-import React, { useState } from "react";
-import { createRailwayCistern, deleteRailwayCistern, updateRailwayCistern, useGetRailwayCisternsQuery } from "@/api";
+import React, { useEffect, useState } from "react";
+import {
+  createRailwayCistern,
+  deleteRailwayCistern,
+  updateRailwayCistern,
+  useGetRailwayCisternsQuery,
+  exportRailwayCisterns,
+  importRailwayCisterns,
+} from "@/api";
 import { Dialog, DialogContent, DialogTitle } from "@/components/data-display/dialog/dialog.component";
-import type { RailwayCistern, RailwayCisternInput } from "@/types";
+import { CsvOperations } from "@/components/data-display/csv-operations";
+import type { RailwayCistern, RailwayCisternInput, WagonType } from "@/types";
 import CisternForm from "@/components/forms/cistern/cistern.form";
 
 const RailwayCisternPage: React.FC = () => {
@@ -10,6 +18,20 @@ const RailwayCisternPage: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedCistern, setSelectedCistern] = useState<RailwayCistern | undefined>(undefined);
   const [isEdit, setIsEdit] = useState(false);
+  const [wagonTypes, setWagonTypes] = useState<WagonType[]>([]);
+
+  useEffect(() => {
+    const fetchWagonTypes = async () => {
+      const response: WagonType[] = [
+        { id: '1', name: 'Тип 1' },
+        { id: '2', name: 'Тип 2' },
+        { id: '3', name: 'Тип 3' },
+      ];
+      setWagonTypes(response);
+    };
+
+    fetchWagonTypes();
+  }, []);
 
   const hamdleSubmit = async (cistern: RailwayCisternInput) => {
     if (isEdit && selectedCistern) await updateRailwayCistern(selectedCistern.id, cistern);
@@ -26,12 +48,6 @@ const RailwayCisternPage: React.FC = () => {
     await deleteRailwayCistern(id);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-    setIsEdit(false);
-    setSelectedCistern(undefined);
-  };
-
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-4">
@@ -40,6 +56,18 @@ const RailwayCisternPage: React.FC = () => {
           Добавить цистерну
         </button>
       </div>
+
+      {/* CSV Operations */}
+      <div className="mb-6">
+        <CsvOperations
+          onImport={importRailwayCisterns}
+          onExport={exportRailwayCisterns}
+          title="Операции с CSV"
+          importText="Импорт цистерн"
+          exportText="Экспорт цистерн"
+        />
+      </div>
+
       <CisternTable
         cisterns={cisterns || []}
         isLoading={isLoading}
@@ -48,27 +76,12 @@ const RailwayCisternPage: React.FC = () => {
         onDelete={handleDelete}
       />
       <Dialog open={open} onOpenChange={() => setOpen(false)}>
-        <DialogTitle className="text-lg font-bold">
-          {isEdit ? "Редактировать цистерну" : "Добавить цистерну"}
-          <button onClick={handleClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
-            <span>Закрыть</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </DialogTitle>
-        <DialogContent className="w-screen">
+        <DialogTitle />
+        <DialogContent className="w-screen" aria-describedby={undefined}>
           <CisternForm
             onSubmit={hamdleSubmit}
             manufacturers={[]}
-            wagonTypes={[]}
+            wagonTypes={wagonTypes}
             initialData={selectedCistern}
             isEdit={isEdit}
           />

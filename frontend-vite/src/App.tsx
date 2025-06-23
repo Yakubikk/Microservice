@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Link, Route, Routes, useLocation } from 'react-router-dom'
 import { LogoutButton, RouteProtected } from "@/components";
 import { Toaster } from "react-hot-toast";
-import { AdminPage, ForbiddenPage, GuestPage, Home, LoginPage, RailwayCisternPage, UserPage } from "@/pages";
+import { AdminPage, ForbiddenPage, GuestPage, Home, LoginPage, RailwayCisternPage, UserPage, CsvTestPage } from "@/pages";
 
 const HIDDEN_NAV_PATHS = ['/login', '/forbidden', '/guest'];
 
@@ -22,6 +22,12 @@ const Navigation = () => {
                     </li>
                     <li>
                         <Link to="/cisterns" className="hover:text-blue-300">Таблица цистерн</Link>
+                    </li>
+                    <li>
+                        <Link to="/csv-test" className="hover:text-blue-300">Тест CSV</Link>
+                    </li>
+                    <li>
+                        <Link to="/user-page" className="hover:text-blue-300">Страница пользователя</Link>
                     </li>
                     <li>
                         <Link to="/admin" className="hover:text-blue-300">Страница администратора</Link>
@@ -52,9 +58,11 @@ function App() {
 
                             <Route path="/cisterns" element={<RailwayCisternPage />} />
 
-                            <Route element={<RouteProtected allowedRoles={['Moderator']} />}>
-                                <Route path="/moderator" element={<UserPage />} />
+                            <Route element={<RouteProtected allowedRoles={['Moderator', 'Admin']} />}>
+                                <Route path="/user-page" element={<UserPage />} />
                             </Route>
+
+                            <Route path="/csv-test" element={<CsvTestPage />} />
 
                             <Route element={<RouteProtected allowedRoles={['Admin']} />}>
                                 <Route path="/admin" element={<AdminPage />} />
